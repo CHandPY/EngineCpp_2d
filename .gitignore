@@ -2,8 +2,8 @@
 
 # Solutions and Settings
 *.sln
-*.vcxproj
-*.vsxproj.filters
+# *.vcxproj
+# *.vsxproj.filters
 
 ###################################
 
