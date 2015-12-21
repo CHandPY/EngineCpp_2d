@@ -3,6 +3,9 @@
 # Solutions and Settings
 *.sln
 
+# .dll needed to ignore glew32.dll (needed for glew to work)
+glew32.dll
+
 ###################################
 
 ## Ignore Visual Studio temporary files, build results, and
