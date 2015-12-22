@@ -13,6 +13,8 @@ void Window::init() {
 
 void Window::window(int width, int height, const char* title, int windowMode) {
 
+	if (w_window) destroy();
+
 	w_width = width;
 	w_height = height;
 	w_title = title;
@@ -87,6 +89,7 @@ void Window::makeWindow() {
 
 		Window::w_window = glfwCreateWindow(w_width, w_height, w_title, NULL, NULL);
 	} else {
+		glfwWindowHint(GLFW_DECORATED, true);
 		Window::w_window = glfwCreateWindow(Window::w_width, Window::w_height, Window::w_title, (w_windowMode) ? monitor : NULL, NULL);
 	}
 

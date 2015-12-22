@@ -65,8 +65,16 @@ int main(void) {
 			zm /= 1.1f;
 
 		if (Input::eventStarted(KEY_SPACE)) {
-			cout << "mx " << Input::getMX();
-			cout << " my " << Input::getMY() << endl;
+			//cout << "mx " << Input::getMX();
+			//cout << " my " << Input::getMY() << endl;
+			Window::window(1280, 720, "Hello World", WINDOWED);
+			Window::initGL();
+			glEnable(GL_DEPTH_TEST);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glViewport(0, 0, Window::getWidth(), Window::getHeight());
+			perspectiveGL(70, Window::aspectRatio(), 0.03f, 1000);
+			glMatrixMode(GL_MODELVIEW);
 		}
 		
 
