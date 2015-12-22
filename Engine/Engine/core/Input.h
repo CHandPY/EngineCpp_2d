@@ -178,6 +178,6 @@ private:
 	static int events_started[LAST_EVENT_BOUND];
 	static int events_stopped[LAST_EVENT_BOUND];
 	static int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its worth it.
-	static int MX, MY, oldMX, oldMY;
+	static int MX, MY, DX, DY;
 
 };

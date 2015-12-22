@@ -13,7 +13,8 @@ void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar
 
 int main(void) {
 
-	Window::init(1920, 1080, "Hello World", 0);
+	Window::init();
+	Window::window(1920, 1080, "Hello World", FULLSCREEN_WINDOWED);
 	Window::initGL();
 
 	/* Get the Video Modes (DisplayModes)
@@ -31,7 +32,8 @@ int main(void) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	perspectiveGL(70, 1920 / 1080.f, 0.03f, 1000);
+	glViewport(0, 0, Window::getWidth(), Window::getHeight());
+	perspectiveGL(70, Window::aspectRatio(), 0.03f, 1000);
 	glMatrixMode(GL_MODELVIEW);
 
 	Input::mouseGrab(false);
@@ -52,15 +54,21 @@ int main(void) {
 		glRotatef(rx, cosf(ry * 3.141592653589 / 180), 0, sinf(ry * 3.141592653589 / 180));
 
 		/* Sample Input */
-		if (Input::event(MOUSE_1)) {
+		//if (Input::event(MOUSE_1)) {
 			ry += 0.1f * Input::getMDX();
 			rx += 0.1f * Input::getMDY();
-		}
+		//}
 
 		if (Input::event(MOUSE_WHEEL_UP))
 			zm *= 1.1f;
 		if (Input::event(MOUSE_WHEEL_DOWN))
 			zm /= 1.1f;
+
+		if (Input::eventStarted(KEY_SPACE)) {
+			cout << "mx " << Input::getMX();
+			cout << " my " << Input::getMY() << endl;
+		}
+		
 
 		/*Sample Rendering */
 		glBegin(GL_TRIANGLES);
