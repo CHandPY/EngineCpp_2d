@@ -1,7 +1,7 @@
 ## Ignore certain project files
 
 # Solutions and Settings
-*.sln
+# *.sln -- solution files should share --
 
 # .dll needed to ignore glew32.dll (needed for glew to work)
 glew32.dll

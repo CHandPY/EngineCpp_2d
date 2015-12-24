@@ -151,8 +151,8 @@
 #define LAST_EVENT_BOUND       512
 
 /* Event actions */
-#define PRESS                  1
 #define RELEASE                0
+#define PRESS                  1
 #define REPEAT                 2
 
 class Input {

@@ -5,15 +5,33 @@
 #include "Input.h"
 #include "System.h"
 
-#define WINDOWED 0x0
-#define FULLSCREEN 0x1
-#define FULLSCREEN_WINDOWED 0x2
+#define WINDOWED 0x00
+#define FULLSCREEN 0x01
+#define FULLSCREEN_WINDOWED 0x02
+
+#define ASPECT_4_3 0x10
+#define ASPECT_16_9 0x11
+#define ASPECT_16_10 0x12
+#define ASPECT_5_4 0x13
+#define ASPECT_OTHER 0x14
+#define ASPECT_ALL 0x15
+
+struct DisplayMode {
+	int width, height, ratioTag;
+	float aspectRatio;
+
+	DisplayMode();
+	DisplayMode(int width, int height);
+	
+	DisplayMode* operator= (DisplayMode* mode);
+};
 
 class Window {
 
 public:
 	static void init();
 	static void window(int width, int height, const char* title, int windowMode);
+	static void window(DisplayMode* displayMode, const char* title, int windowMode);
 	static void initGL();
 	static void update();
 	static bool isCloseRequested();
@@ -22,18 +40,19 @@ public:
 
 	static void setTitle(const char* title);
 	static void setCursorMode(int mode);
-	static void setVideoMode(GLFWvidmode* mode);
 
 	static float aspectRatio();
 	static int getWidth();
 	static int getHeight();
+
+	static DisplayMode* getAvailableDisplayModes(int* count, int filter = ASPECT_ALL);
 
 protected:
 	static void makeWindow();
 
 private:
 	static GLFWwindow* w_window;
-	static int w_width, w_height;
+	static DisplayMode* w_displayMode;
 	static const char* w_title;
 	static int w_windowMode;
 

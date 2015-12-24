@@ -11,22 +11,51 @@ using namespace std;
 
 void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 
+// char* toS(int x) {
+//	int digits[6], ln;
+//	bool neg = (x < 0);
+//
+//	if (neg) x = -x;
+//
+//	for (ln = 0; 10 <= x; ln++) {
+//		digits[ln] = x % 10;
+//		x /= 10;
+//	}
+//	digits[ln++] = x % 10;
+//
+//	//cout << ln << endl;
+//
+//	if (neg) ln++;
+//
+//	char* res = new char[ln + 1];
+//
+//	int i = 0;
+//
+//	if (neg)
+//		res[i] = '-';
+//
+//	for (; i < ln; i++) {
+//		res[(neg) ? i + 1 : i] = 48 + digits[i];
+//		//cout << digits[i] << endl;
+//	}
+//
+//	res[ln] = '\n';
+//
+//	return res;
+//}
+
+int length;
+
 int main(void) {
 
 	Window::init();
-	Window::window(1920, 1080, "Hello World", FULLSCREEN_WINDOWED);
+	Window::window(1920, 1080, "Hello World", WINDOWED);
 	Window::initGL();
 
-	/* Get the Video Modes (DisplayModes)
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	int count;
-	const GLFWvidmode* modes = glfwGetVideoModes(monitor, &count);
-	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-	for (int i = 0; i < count; i++) {
-		if (modes[i].refreshRate == mode->refreshRate)
-			cout << "Mode: " << modes[i].width << " x " << modes[i].height << " @" << modes[i].refreshRate << "Hz" << endl;
-	}
-	*/
+	//length = 0;
+	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length);
+	cout << &length << endl;
+	cout << length << endl; // the number of DMs is 22 on my screen, the value should be arround there, but the variable dosen't point right.
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -39,6 +68,7 @@ int main(void) {
 	Input::mouseGrab(false);
 
 	float ry = 0, rx = 0, zm = -4, time = 0;
+	int i = 0;
 
 	while (!Window::isCloseRequested()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -51,23 +81,22 @@ int main(void) {
 		time += 1.f;
 
 		glRotatef(ry, 0, 1, 0);
-		glRotatef(rx, cosf(ry * 3.141592653589 / 180), 0, sinf(ry * 3.141592653589 / 180));
+		glRotatef(rx, cosf(ry * 3.141592653589f / 180), 0, sinf(ry * 3.141592653589f / 180));
 
 		/* Sample Input */
-		//if (Input::event(MOUSE_1)) {
-			ry += 0.1f * Input::getMDX();
-			rx += 0.1f * Input::getMDY();
-		//}
+		ry += 0.1f * Input::getMDX();
+		rx += 0.1f * Input::getMDY();
 
 		if (Input::event(MOUSE_WHEEL_UP))
 			zm *= 1.1f;
 		if (Input::event(MOUSE_WHEEL_DOWN))
 			zm /= 1.1f;
 
+		/* toggle through all the */
 		if (Input::eventStarted(KEY_SPACE)) {
-			//cout << "mx " << Input::getMX();
-			//cout << " my " << Input::getMY() << endl;
-			Window::window(1280, 720, "Hello World", WINDOWED);
+			DisplayMode dm = dmodes[i++ % length];
+			cout << "Mode: " << dm.width << " x " << dm.height << endl;
+			Window::window(&dm, "Hello World", WINDOWED);
 			Window::initGL();
 			glEnable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
