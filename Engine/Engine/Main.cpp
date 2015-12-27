@@ -3,13 +3,16 @@
 #include <math.h>
 #include <iostream>
 
-using namespace std;
-
 #include "core/System.h"
 #include "core/Input.h"
 #include "core/Window.h"
 #include "core/Timer.h"
 #include "core/HashMap.h"
+#include "core/Strings.h"
+
+#include "Apple.h"
+
+using namespace std;
 
 void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 
@@ -49,19 +52,18 @@ void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar
 int length;
 
 int main() {
-	
+
+	Apple a = Apple("Boby", 0xffffaa00, 7.2, 0.0221);
+
+	cout << a.toString() << endl;
+
 	Window::init();
-	Window::window(1920, 1080, "Hello World", WINDOWED);
+	Window::window(1920, 1080, "Hello World", FULLSCREEN);
 	Window::initGL();
 
 	glfwSwapInterval(0);
 
 	Timer::setLogFPS(true);
-
-	for (int i = 0; i < 10; i++) {
-		System::curThreadSleep(100);
-		cout << sys_milis(System::time()) << endl;
-	}
 
 	//length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length);
@@ -85,6 +87,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Timer::update();
+		Input::update();
 
 		glLoadIdentity();
 
@@ -97,6 +100,8 @@ int main() {
 		/* Sample Input */
 		ry += 0.1f * Input::getMDX();
 		rx += 0.1f * Input::getMDY();
+
+		//cout << "(" << Input::getMDX() << ", " << Input::getMDY() << ")" << endl;
 
 		if (Input::event(MOUSE_WHEEL_UP))
 			zm *= 1.1f;
@@ -115,7 +120,7 @@ int main() {
 		if (Input::eventStarted(KEY_SPACE)) {
 			DisplayMode dm = dmodes[i++ % length];
 			cout << "Mode: " << dm.width << " x " << dm.height << endl;
-			Window::window(&dm, "Hello World", WINDOWED);
+			Window::window(&dm, "Hello World", FULLSCREEN);
 			Window::initGL();
 			glEnable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
@@ -177,8 +182,6 @@ int main() {
 			glEnd();
 			glPopMatrix();
 		}
-
-		Input::update();
 
 		Window::update();
 

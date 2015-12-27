@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include <string>
 #include <GLFW\glfw3.h>
 
 using namespace std;
@@ -28,25 +27,5 @@ public:
 
 	static sys_time time();
 	static sys_secs timeSec();
-
-	static string str(char val);
-	static string str(short val);
-	static string str(int val);
-	static string str(long val);
-	static string str(long long val);
-	static string str(unsigned long long val);
-	static string str(float val);
-	static string str(bool val);
-
-	static string strhx(char val);
-	static string strhx(short val);
-	static string strhx(int val);
-	static string strhx(long long val);
-	static string strhx(unsigned short val);
-	static string strhx(unsigned int val);
-	static string strhx(unsigned long long val);
-
-private:
-	inline static string strhx_internal(unsigned long long val, const int explicit_size);
 
 };

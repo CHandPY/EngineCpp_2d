@@ -153,16 +153,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\Input.cpp" />
+    <ClCompile Include="core\Strings.cpp" />
     <ClCompile Include="core\System.cpp" />
     <ClCompile Include="core\Timer.cpp" />
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="core\HashMap.h" />
     <ClInclude Include="core\Input.h" />
+    <ClInclude Include="core\Strings.h" />
     <ClInclude Include="core\System.h" />
     <ClInclude Include="core\Timer.h" />
+    <ClInclude Include="core\ToString.h" />
     <ClInclude Include="core\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
