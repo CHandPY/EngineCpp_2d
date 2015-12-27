@@ -6,6 +6,7 @@ int Input::events[LAST_EVENT_BOUND];
 int Input::events_started[LAST_EVENT_BOUND];
 int Input::events_stopped[LAST_EVENT_BOUND];
 int Input::DX = 0, Input::DY = 0, Input::MX = 0, Input::MY = 0;
+bool Input::m_grab = false;
 
 int Input::event(int id) {
 	return events[id];
@@ -50,6 +51,7 @@ void Input::update() {
 }
 
 void Input::mouseGrab(bool grab) {
+	m_grab = grab;
 	if (grab)
 		Window::setCursorMode(GLFW_CURSOR_DISABLED);
 	else
@@ -110,4 +112,8 @@ void Input::m_pos_callback(GLFWwindow * window, double xpos, double ypos) {
 
 	MX = (int) xpos;
 	MY = (int) ypos;
+}
+
+bool Input::mouseGrabed() {
+	return m_grab;
 }

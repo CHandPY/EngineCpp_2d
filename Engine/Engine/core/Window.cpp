@@ -83,11 +83,7 @@ DisplayMode * Window::getAvailableDisplayModes(int* count, int filter) {
 		}
 
 	}
-	std::cout << count << std::endl;
-	std::cout << &number_of_monitors << std::endl;
-	count = &number_of_monitors;
-	std::cout << count << std::endl;
-	std::cout << &number_of_monitors << std::endl;
+	*count = number_of_monitors;
 	return modes;
 }
 

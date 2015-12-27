@@ -33,6 +33,9 @@
     <ClCompile Include="core\Input.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="core\Timer.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\Window.h">
@@ -42,6 +45,12 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="core\Input.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Timer.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\HashMap.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
