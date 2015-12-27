@@ -152,22 +152,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core\Input.cpp" />
-    <ClCompile Include="core\Strings.cpp" />
-    <ClCompile Include="core\System.cpp" />
-    <ClCompile Include="core\Timer.cpp" />
-    <ClCompile Include="core\Window.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\core\Input.cpp" />
+    <ClCompile Include="src\core\Strings.cpp" />
+    <ClCompile Include="src\core\System.cpp" />
+    <ClCompile Include="src\core\Timer.cpp" />
+    <ClCompile Include="src\core\Window.cpp" />
+    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Apple.h" />
-    <ClInclude Include="core\HashMap.h" />
-    <ClInclude Include="core\Input.h" />
-    <ClInclude Include="core\Strings.h" />
-    <ClInclude Include="core\System.h" />
-    <ClInclude Include="core\Timer.h" />
-    <ClInclude Include="core\ToString.h" />
-    <ClInclude Include="core\Window.h" />
+    <ClInclude Include="src\Apple.h" />
+    <ClInclude Include="src\core\HashMap.h" />
+    <ClInclude Include="src\core\Input.h" />
+    <ClInclude Include="src\core\Strings.h" />
+    <ClInclude Include="src\core\System.h" />
+    <ClInclude Include="src\core\Timer.h" />
+    <ClInclude Include="src\core\ToString.h" />
+    <ClInclude Include="src\core\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

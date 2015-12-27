@@ -2,6 +2,7 @@
 
 # Solutions and Settings
 # *.sln -- solution files should share --
+*.opendl # is that file even suposed to be there??
 
 # .dll needed to ignore glew32.dll (needed for glew to work)
 glew32.dll
