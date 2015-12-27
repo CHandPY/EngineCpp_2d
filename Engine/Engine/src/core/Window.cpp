@@ -69,17 +69,21 @@ int Window::getHeight() {
 	return w_displayMode->height;
 }
 
-int number_of_monitors;
 DisplayMode * Window::getAvailableDisplayModes(int* count, int filter) {
 	GLFWmonitor* monitor = glfwGetWindowMonitor(w_window);
 	monitor = (monitor) ? monitor : glfwGetPrimaryMonitor();
-	int cnt;
+	int cnt, number_of_monitors = 0;
 	const GLFWvidmode* modes_raw = glfwGetVideoModes(monitor, &cnt);
 	DisplayMode *modes = new DisplayMode[cnt];
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 	for (int i = 0; i < cnt; i++) {
 		if (modes_raw[i].refreshRate == mode->refreshRate) {
-			modes[number_of_monitors++] = DisplayMode(modes_raw[i].width, modes_raw[i].height);
+			DisplayMode md(modes_raw[i].width, modes_raw[i].height);
+			if (filter == ASPECT_ALL) {
+				modes[number_of_monitors++] = md;
+			} else if (md.ratioTag == filter) {
+				modes[number_of_monitors++] = md;
+			}
 		}
 
 	}
@@ -125,13 +129,13 @@ DisplayMode::DisplayMode() {}
 
 DisplayMode::DisplayMode(int width, int height) : width(width), height(height) {
 		aspectRatio = width / (float) height;
-		if (aspectRatio == (4 / 3))
+		if (aspectRatio == (4.f / 3.f))
 			ratioTag = ASPECT_4_3;
-		else if (aspectRatio == (16 / 9))
+		else if (aspectRatio == (16.f / 9.f))
 			ratioTag = ASPECT_16_9;
-		else if (aspectRatio == (16 / 10))
+		else if (aspectRatio == (16.f / 10.f))
 			ratioTag = ASPECT_16_10;
-		else if (aspectRatio == (5 / 4))
+		else if (aspectRatio == (5.f / 4.f))
 			ratioTag = ASPECT_5_4;
 		else
 			ratioTag = ASPECT_OTHER;

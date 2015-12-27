@@ -21,49 +21,49 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\Window.cpp">
+    <ClCompile Include="src\core\Window.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="core\System.cpp">
+    <ClCompile Include="src\core\Input.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="core\Input.cpp">
+    <ClCompile Include="src\core\Strings.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="core\Timer.cpp">
+    <ClCompile Include="src\core\System.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="core\Strings.cpp">
+    <ClCompile Include="src\core\Timer.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\Window.h">
+    <ClInclude Include="src\Apple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\HashMap.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\System.h">
+    <ClInclude Include="src\core\Input.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\Input.h">
+    <ClInclude Include="src\core\Strings.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\Timer.h">
+    <ClInclude Include="src\core\System.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\HashMap.h">
+    <ClInclude Include="src\core\Timer.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\Strings.h">
+    <ClInclude Include="src\core\ToString.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core\ToString.h">
+    <ClInclude Include="src\core\Window.h">
       <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="Apple.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

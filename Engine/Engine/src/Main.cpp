@@ -58,7 +58,7 @@ int main() {
 	cout << a.toString() << endl;
 
 	Window::init();
-	Window::window(1920, 1080, "Hello World", FULLSCREEN);
+	Window::window(1920, 1080, "Hello World", WINDOWED);
 	Window::initGL();
 
 	glfwSwapInterval(0);
@@ -66,7 +66,7 @@ int main() {
 	Timer::setLogFPS(true);
 
 	//length = 0;
-	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length);
+	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -120,7 +120,7 @@ int main() {
 		if (Input::eventStarted(KEY_SPACE)) {
 			DisplayMode dm = dmodes[i++ % length];
 			cout << "Mode: " << dm.width << " x " << dm.height << endl;
-			Window::window(&dm, "Hello World", FULLSCREEN);
+			Window::window(&dm, "Hello World", WINDOWED);
 			Window::initGL();
 			glEnable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);
