@@ -30,8 +30,8 @@ class Window {
 
 public:
 	static void init();
-	static void window(int width, int height, const char* title, int windowMode);
-	static void window(DisplayMode* displayMode, const char* title, int windowMode);
+	static void window(int width, int height, const char* title, int windowMode, bool vSync);
+	static void window(DisplayMode* displayMode, const char* title, int windowMode, bool vSync);
 	static void initGL();
 	static void update();
 	static bool isCloseRequested();
@@ -40,6 +40,11 @@ public:
 
 	static void setTitle(const char* title);
 	static void setCursorMode(int mode);
+	static void setVSync(bool vSync);
+	static void setDisplayMode(DisplayMode* displayMode);
+	static void setWindowMode(int windowMode);
+
+	static void setUserWindowSetting(DisplayMode* displayMode, int videoMode, bool vSync);
 
 	static float aspectRatio();
 	static int getWidth();
@@ -48,13 +53,14 @@ public:
 	static DisplayMode* getAvailableDisplayModes(int* count, int filter = ASPECT_ALL);
 
 protected:
-	static void makeWindow();
+	static void makeWindow(GLFWmonitor* monitor_parrent);
 
 private:
 	static GLFWwindow* w_window;
 	static DisplayMode* w_displayMode;
 	static const char* w_title;
 	static int w_windowMode;
+	static bool w_vSync;
 
 	static void setInputCallbacks();
 

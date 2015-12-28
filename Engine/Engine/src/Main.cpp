@@ -49,23 +49,18 @@ void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar
 //	return res;
 //}
 
-int length;
-
 int main() {
 
-	Apple a = Apple("Boby", 0xffffaa00, 7.2, 0.0221);
-
+	Apple a = Apple("Bob", 0xffffaa00, 7.2, 0.0221);
 	cout << a.toString() << endl;
 
 	Window::init();
-	Window::window(1920, 1080, "Hello World", WINDOWED);
+	Window::window(1920, 1080, "Hello World", WINDOWED, false);
 	Window::initGL();
-
-	glfwSwapInterval(0);
 
 	Timer::setLogFPS(true);
 
-	//length = 0;
+	int length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);
 
 	glEnable(GL_DEPTH_TEST);
@@ -80,8 +75,6 @@ int main() {
 
 	float ry = 0, rx = 0, zm = -4, time = 0;
 	int i = 0;
-
-	bool fps_flag = false;
 
 	while (!Window::isCloseRequested()) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -101,8 +94,6 @@ int main() {
 		ry += 0.1f * Input::getMDX();
 		rx += 0.1f * Input::getMDY();
 
-		//cout << "(" << Input::getMDX() << ", " << Input::getMDY() << ")" << endl;
-
 		if (Input::event(MOUSE_WHEEL_UP))
 			zm *= 1.1f;
 		if (Input::event(MOUSE_WHEEL_DOWN))
@@ -116,11 +107,11 @@ int main() {
 			Input::mouseGrab(true);
 		}
 
-		/* toggle through all the */
+		/* toggle through all the DisplayModes */
 		if (Input::eventStarted(KEY_SPACE)) {
 			DisplayMode dm = dmodes[i++ % length];
 			cout << "Mode: " << dm.width << " x " << dm.height << endl;
-			Window::window(&dm, "Hello World", WINDOWED);
+			Window::setDisplayMode(&dm);
 			Window::initGL();
 			glEnable(GL_DEPTH_TEST);
 			glMatrixMode(GL_PROJECTION);

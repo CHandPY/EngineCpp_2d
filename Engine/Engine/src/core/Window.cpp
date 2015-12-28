@@ -5,6 +5,7 @@
 GLFWwindow* Window::w_window = NULL;
 DisplayMode* Window::w_displayMode = NULL;
 int Window::w_windowMode = 0;
+bool Window::w_vSync = false;
 const char* Window::w_title = "";
 
 void Window::init() {
@@ -12,18 +13,24 @@ void Window::init() {
 		System::exit(1);
 }
 
-void Window::window(int width = w_displayMode->width, int height = w_displayMode->height, const char* title = w_title, int windowMode = w_windowMode) {
-	Window::window(new DisplayMode(width, height), title, windowMode);
+void Window::window(int width, int height, const char* title, int windowMode, bool vSync) {
+	Window::window(new DisplayMode(width, height), title, windowMode, vSync);
 }
 
-void Window::window(DisplayMode* displayMode = w_displayMode, const char * title = w_title, int windowMode = w_windowMode) {
-	if (w_window) destroy();
+void Window::window(DisplayMode* displayMode, const char * title, int windowMode, bool vSync) {
+	
+	GLFWmonitor *mon = NULL;
+	if (w_window) {
+		mon = glfwGetWindowMonitor(w_window);
+		destroy();
+	}
 
+	setVSync(vSync);
 	w_displayMode = displayMode;
 	w_title = title;
 	w_windowMode = windowMode;
 
-	makeWindow();
+	makeWindow(mon);
 
 	setInputCallbacks();
 }
@@ -55,6 +62,22 @@ void Window::setTitle(const char* title) {
 
 void Window::setCursorMode(int mode) {
 	glfwSetInputMode(w_window, GLFW_CURSOR, mode);
+}
+
+void Window::setVSync(bool vSync) {
+	glfwSwapInterval((vSync) ? 1 : 0);
+}
+
+void Window::setDisplayMode(DisplayMode * displayMode) {
+	Window::window(displayMode, w_title, w_windowMode, w_vSync);
+}
+
+void Window::setWindowMode(int windowMode) {
+	Window::window(w_displayMode, w_title, windowMode, w_vSync);
+}
+
+void Window::setUserWindowSetting(DisplayMode * displayMode, int windowMode, bool vSync) {
+	Window::window(displayMode, w_title, windowMode, vSync);
 }
 
 float Window::aspectRatio() {
@@ -91,9 +114,9 @@ DisplayMode * Window::getAvailableDisplayModes(int* count, int filter) {
 	return modes;
 }
 
-void Window::makeWindow() {
+void Window::makeWindow(GLFWmonitor* monitor_parrent) {
 
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	GLFWmonitor* monitor = (monitor_parrent) ? monitor_parrent : glfwGetPrimaryMonitor();
 
 	if (w_windowMode == FULLSCREEN_WINDOWED) {
 		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
