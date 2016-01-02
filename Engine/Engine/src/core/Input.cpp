@@ -5,7 +5,8 @@
 int Input::events[LAST_EVENT_BOUND];
 int Input::events_started[LAST_EVENT_BOUND];
 int Input::events_stopped[LAST_EVENT_BOUND];
-int Input::oldMX = 0, Input::oldMY = 0, Input::MX = 0, Input::MY = 0;
+int Input::DX = 0, Input::DY = 0, Input::MX = 0, Input::MY = 0;
+bool Input::m_grab = false;
 
 int Input::event(int id) {
 	return events[id];
@@ -28,11 +29,11 @@ int Input::getMY() {
 }
 
 int Input::getMDX() {
-	return MX - oldMX;
+	return DX;
 }
 
 int Input::getMDY() {
-	return MY - oldMY;
+	return DY;
 }
 
 void Input::update() {
@@ -43,13 +44,14 @@ void Input::update() {
 	events[MOUSE_WHEEL_UP] = 0;
 	events[MOUSE_WHEEL_DOWN] = 0;
 
-	oldMX = MX;
-	oldMY = MY;
+	DX = 0;
+	DY = 0;
 
 	glfwPollEvents();
 }
 
 void Input::mouseGrab(bool grab) {
+	m_grab = grab;
 	if (grab)
 		Window::setCursorMode(GLFW_CURSOR_DISABLED);
 	else
@@ -104,9 +106,14 @@ void Input::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 }
 
 void Input::m_pos_callback(GLFWwindow * window, double xpos, double ypos) {
-	oldMX = MX;
-	oldMY = MY;
+	
+	DX = (int) xpos - MX;
+	DY = (int) ypos - MY;
 
 	MX = (int) xpos;
 	MY = (int) ypos;
+}
+
+bool Input::mouseGrabed() {
+	return m_grab;
 }

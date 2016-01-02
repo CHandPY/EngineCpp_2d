@@ -151,8 +151,8 @@
 #define LAST_EVENT_BOUND       512
 
 /* Event actions */
-#define PRESS                  1
 #define RELEASE                0
+#define PRESS                  1
 #define REPEAT                 2
 
 class Input {
@@ -173,11 +173,14 @@ public:
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	static void m_pos_callback(GLFWwindow* window, double xpos, double ypos);
 
+	static bool mouseGrabed();
+
 private:
 	static int events[LAST_EVENT_BOUND];
 	static int events_started[LAST_EVENT_BOUND];
 	static int events_stopped[LAST_EVENT_BOUND];
 	static int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its worth it.
-	static int MX, MY, oldMX, oldMY;
+	static int MX, MY, DX, DY;
+	static bool m_grab;
 
 };
