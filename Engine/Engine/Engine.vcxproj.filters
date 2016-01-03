@@ -39,6 +39,9 @@
     <ClCompile Include="src\core\Timer.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\math\Vector2f.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Apple.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Window.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Vector2f.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
