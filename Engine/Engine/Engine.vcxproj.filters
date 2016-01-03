@@ -19,10 +19,10 @@
     <Filter Include="Header Files\core">
       <UniqueIdentifier>{c0b63e67-9df8-4081-b4d8-36263a0fc0bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\core\math">
+    <Filter Include="Source Files\math">
       <UniqueIdentifier>{7b8fac98-3007-45cf-8586-4eee4666267f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\math">
+    <Filter Include="Header Files\math">
       <UniqueIdentifier>{72b1b948-4da9-44c2-9d08-a83bab3e8c3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -46,7 +46,7 @@
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="src\math\Vector2f.cpp">
-      <Filter>Source Files\core\math</Filter>
+      <Filter>Source Files\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +75,7 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\math\Vector2f.h">
-      <Filter>Header Files\core\math</Filter>
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
