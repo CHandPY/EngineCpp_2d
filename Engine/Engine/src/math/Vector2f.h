@@ -16,9 +16,9 @@ public:
 
 
 	/* setters */
-	Vector2f setX(float x);
-	Vector2f setY(float y);
-	Vector2f set(float x, float y);
+	Vector2f* setX(float x);
+	Vector2f* setY(float y);
+	Vector2f* set(float x, float y);
 
 	/* getters */
 	float getX();
@@ -63,16 +63,14 @@ public:
 
 	/* length functions */
 	float length();
-	float lengthSQ();
+	float lengthSq();
 
 	/* misc functions */
 	float max();
 	float min();
 
 	//TODO: debug
-	void pnt() {
-		cout << "(" << m_x << ", " << m_y << ")" << endl;
-	}
+	void pnt();
 
 private:
 	float m_x, m_y, m_length;
