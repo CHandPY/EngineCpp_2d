@@ -28,7 +28,9 @@ public:
 	Matrix3f* operator+=(Matrix3f*);
 	Matrix3f* operator-=(Matrix3f*);
 
-	Matrix3f* operator*(Vector2f);
+	Vector2f* operator*(Vector2f);
+
+	Matrix3f* toTransform(Matrix3f*, Matrix3f*, Matrix3f*);
 
 
 
