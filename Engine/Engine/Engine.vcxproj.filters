@@ -45,8 +45,11 @@
     <ClCompile Include="src\core\Timer.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\math\Vector2f.cpp">
-      <Filter>Source Files\math</Filter>
+    <ClCompile Include="src\core\Vector2f.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Matrix3f.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,8 +77,11 @@
     <ClInclude Include="src\core\Window.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\Vector2f.h">
-      <Filter>Header Files\math</Filter>
+    <ClInclude Include="src\core\Vector2f.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Matrix3f.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
