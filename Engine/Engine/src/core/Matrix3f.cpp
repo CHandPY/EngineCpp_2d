@@ -69,6 +69,18 @@ Matrix3f* Matrix3f::operator-= (Matrix3f* m2) {
 	return this;
 }
 
+Matrix3f* Matrix3f::operator*(Vector2f) {
+	
+}
+
+Matrix3f* Matrix3f::operator*=(Matrix3f*) {
+
+}
+
+Matrix3f* Matrix3f::operator*(Matrix3f*) {
+
+}
+
 Matrix3f::~Matrix3f() {
 	delete[] m_mat;
 }
