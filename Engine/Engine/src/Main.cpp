@@ -9,7 +9,7 @@
 #include "core/Timer.h"
 #include "core/HashMap.h"
 #include "core/Strings.h"
-
+#include "core/Matrix3f.h"
 #include "Apple.h"
 
 using namespace std;
@@ -54,11 +54,31 @@ int main() {
 	Apple a = Apple("Bob", 0xffffaa00, 7.2, 0.0221);
 	cout << a.toString() << endl;
 
+	Vector2f *pos = new Vector2f(0, 1);
+
+	Matrix3f scale = Matrix3f();
+	scale.initScale(1, 1);
+	Matrix3f rotation = Matrix3f();
+	rotation.initRotation(1.5707963);
+	cout << rotation.toString() << endl;
+	Matrix3f translation = Matrix3f();
+	translation.initTranslation(0, 2);
+	Matrix3f transform = Matrix3f();
+	transform.initTransform(&scale, &rotation, &translation);
+	cout << transform.toString() << endl;
+
+	cout << pos->toString() << endl;
+
+	pos = transform* pos;
+
+	cout << pos->toString() << endl;
+
+
 	Window::init();
 	Window::window(1920, 1080, "Hello World", WINDOWED, false);
 	Window::initGL();
 
-	Timer::setLogFPS(true);
+	Timer::setLogFPS(false);
 
 	int length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);

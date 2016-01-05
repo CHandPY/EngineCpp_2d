@@ -233,8 +233,8 @@ bool Vector2f::operator<= (Vector2f* vec) {
 	return m_x <= vec->m_x && m_y <= vec->m_y;
 }
 
-float Vector2f::operator[] (int i) {
-	return i == 1? m_y:m_x;
+float* Vector2f::operator[] (int i) {
+	return i == 1?&m_y:&m_x;
 }
 
 float Vector2f::cross(Vector2f* v1, Vector2f* v2) {

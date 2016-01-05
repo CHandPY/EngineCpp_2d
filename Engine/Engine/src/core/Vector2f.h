@@ -8,7 +8,7 @@ using namespace std;
 class Vector2f : ToString {
 
 public:
-	Vector2f(float x, float y) : m_x(x), m_y(y), m_calcLength(true) {}
+	Vector2f(float x, float y) : m_x(x), m_y(y), m_calcLength(true), m_length(0) {}
 	Vector2f(float x, float y, float length) : m_x(x), m_y(y), m_length(length), m_calcLength(false) {}
 	Vector2f(float f) : Vector2f(f, f) {}
 	Vector2f() : Vector2f(0, 0, 0) {}
@@ -51,7 +51,7 @@ public:
 	Vector2f* operator-- (void);
 	Vector2f* operator-  (void);
 
-	float operator[] (int);
+	float* operator[] (int);
 	/* comparison operators */
 	bool operator==     (Vector2f*);
 	bool operator>      (Vector2f*);
