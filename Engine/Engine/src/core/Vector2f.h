@@ -51,7 +51,7 @@ public:
 	Vector2f* operator-- (void);
 	Vector2f* operator-  (void);
 
-	float* operator[] (int);
+	float *operator[] (int);
 	/* comparison operators */
 	bool operator==     (Vector2f*);
 	bool operator>      (Vector2f*);

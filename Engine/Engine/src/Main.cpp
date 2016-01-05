@@ -100,7 +100,7 @@ int main() {
 	Window::window(1920, 1080, "Hello World", WINDOWED, false);
 	Window::initGL();
 
-	Vector2f *pos = new Vector2f(0, 0);
+	Vector2f *pos = new Vector2f(0, 2.25F);
 
 	Matrix3f scale = Matrix3f();
 	scale.initScale(1, 1);
@@ -113,29 +113,19 @@ int main() {
 	transform.initTransform(&scale, &rotation, &translation);
 	cout << transform.toString() << endl;
 	Matrix3f ortho = Matrix3f();
-	ortho.initOrtho(-5 * Window::aspectRatio(),5 * Window::aspectRatio(), -5 , 5 );
+	ortho.initOrtho(-8, 8, -4.5F, 4.5F);
 	cout << ortho.toString() << endl;
 	cout << pos->toString() << endl;
-
+	
 	pos = transform* pos;
+
 	cout << pos->toString() << endl;
 
-
+	glLineWidth(1);
 	Timer::setLogFPS(false);
 
 	int length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);
-
-
-	//int program = LoadShader();
-
-
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glViewport(0, 0, Window::getWidth(), Window::getHeight());
-	glMatrixMode(GL_MODELVIEW);
-	glPointSize(10);
 
 	Input::mouseGrab(true);
 
@@ -145,9 +135,9 @@ int main() {
 
 
 
-	//GLuint vbo, ibo;
-	//glGenBuffers(1, &vbo);
-	//glGenBuffers(1, &ibo);
+	/*GLuint vbo, ibo;
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);*/
 	//int size = 6;
 
 	//float  vertices[] = { 0, 0, 2, 4, 4, 0 };
@@ -165,10 +155,19 @@ int main() {
 		Timer::update();
 
 		rot += Timer::getDelta();
+		if (rot > 6.28318530718F) {
+			rot = 0;
+		}
 		Input::update();
-		Vector2f* p = ortho*(transform* pos);
-
-		glRectf(p->getX() - 1, p->getY() -1, p->getX() + 1, p->getY() + 1);
+		rotation.initRotation(rot);
+		transform.initTransform(&scale, &rotation, &translation);
+		Vector2f *p2 = new Vector2f();
+		p2 = ortho*(transform *pos);
+		cout << p2->toString() << endl;
+		glBegin(GL_LINES);
+		glVertex2f(0, 0);
+		glVertex2f(p2->getX(), p2->getY());
+		glEnd();
 
 		/*glUseProgram(program);
 		glUniformMatrix3fv(0, 0, 9, ortho.getArray());
