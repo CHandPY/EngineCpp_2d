@@ -18,6 +18,7 @@ public:
 	Matrix3f* initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate);
 	Matrix3f* initRotation(float rot);
 	Matrix3f* initScale(float x, float y);
+	Matrix3f* initOrtho(float left, float right, float bottom, float top);
 
 	//operations
 	float* operator[] (int);

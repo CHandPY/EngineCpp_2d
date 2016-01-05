@@ -29,37 +29,71 @@ Matrix3f* Matrix3f::initIdentity() {
 }
 
 Matrix3f* Matrix3f::initScale(float x, float y) {
-	initIdentity();
 	m_mat[0] = x;
+	m_mat[1] = 0;
+	m_mat[2] = 0;
+	m_mat[3] = 0;
 	m_mat[4] = y;
+	m_mat[5] = 0;
+	m_mat[6] = 0;
+	m_mat[7] = 0;
+	m_mat[8] = 1;
+
 	return this;
 }
 
 Matrix3f* Matrix3f::initRotation(float rot) {
-	initIdentity();
 	m_mat[0] = cos(rot);
 	m_mat[1] = -sin(rot);
+	m_mat[2] = 0;
 	m_mat[3] = sin(rot);
 	m_mat[4] = cos(rot);
+	m_mat[5] = 0;
+	m_mat[6] = 0;
+	m_mat[7] = 0;
+	m_mat[8] = 1;
 	return this;
 }
 
 Matrix3f* Matrix3f::initTranslation(float x, float y) {
-	initIdentity();
+	m_mat[0] = 1;
+	m_mat[1] = 0;
 	m_mat[2] = x;
+	m_mat[3] = 0;
+	m_mat[4] = 1;
 	m_mat[5] = y;
+	m_mat[6] = 0;
+	m_mat[7] = 0;
+	m_mat[8] = 1;
 	return this;
 }
 
+
+/*
+ *
+ *
+ *
+ *
+ */
 Matrix3f* Matrix3f::initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate) {
 	initIdentity();
-	*this *= scale;
-	*this *= rotation;
 	*this *= translate;
-
+	*this *= rotation;
+	*this *= scale;
 	return this;
 }
 
+Matrix3f* Matrix3f::initOrtho(float left, float right, float bottom, float top) {
+	m_mat[0] = 2 / (right - left);
+	m_mat[1] = 0;
+	m_mat[2] = -(right+left)/(right - left);
+	m_mat[3] = 0;
+	m_mat[4] = 2/(top - bottom);
+	m_mat[5] = -(top+bottom)/(top - bottom);
+	m_mat[6] = 0;
+	m_mat[7] = 0;
+	m_mat[8] = 1;
+}
 
 
 
@@ -118,8 +152,7 @@ Matrix3f* Matrix3f::operator-= (Matrix3f* m2) {
 }
 
 Vector2f* Matrix3f::operator*(Vector2f* v) {
-	Vector2f* v2 = new Vector2f((*(*v)[0] * m_mat[0]) + (*(*v)[1] * m_mat[1]) + (m_mat[2]), (*(*v)[0] * m_mat[3]) + (*(*v)[1] * m_mat[4]) + (m_mat[5]));
-	return v2;
+	return  new Vector2f((*(*v)[0] * m_mat[0]) + (*(*v)[1] * m_mat[1]) + (m_mat[2]), (*(*v)[0] * m_mat[3]) + (*(*v)[1] * m_mat[4]) + (m_mat[5]));
 }
 
 Matrix3f* Matrix3f::operator*=(Matrix3f* m) {

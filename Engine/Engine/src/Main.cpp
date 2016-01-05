@@ -57,15 +57,17 @@ int main() {
 	Vector2f *pos = new Vector2f(0, 1);
 
 	Matrix3f scale = Matrix3f();
-	scale.initScale(1, 1);
+	scale.initScale(2, 2);
 	Matrix3f rotation = Matrix3f();
-	rotation.initRotation(1.5707963);
+	rotation.initRotation(3.14159);
 	cout << rotation.toString() << endl;
 	Matrix3f translation = Matrix3f();
-	translation.initTranslation(0, 2);
+	translation.initTranslation(5, 2);
 	Matrix3f transform = Matrix3f();
 	transform.initTransform(&scale, &rotation, &translation);
 	cout << transform.toString() << endl;
+	Matrix3f ortho = Matrix3f();
+	ortho.initOrtho(-5 ,5 , -5, 5);
 
 	cout << pos->toString() << endl;
 
