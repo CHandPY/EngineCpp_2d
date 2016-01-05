@@ -32,6 +32,10 @@ public:
 
 	Vector2f* operator*(Vector2f*);
 
+	float *getArray() {
+		return m_mat;
+	}
+
 	string toString();
 
 private:

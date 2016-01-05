@@ -93,6 +93,7 @@ Matrix3f* Matrix3f::initOrtho(float left, float right, float bottom, float top) 
 	m_mat[6] = 0;
 	m_mat[7] = 0;
 	m_mat[8] = 1;
+	return this;
 }
 
 

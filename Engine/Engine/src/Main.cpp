@@ -49,6 +49,48 @@ void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar
 //	return res;
 //}
 
+
+GLuint LoadShader() {
+	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	// Read shaders
+	std::string vertShaderStr = "#version 120\nattribute vec2 position;\nuniform mat3 MVP;\nvoid main() {\ngl_Position = vec4(MVP * vec3(position, 1.0), 1);\}\nChat Conversation End\n";
+	std::string fragShaderStr = "#version 120\nvoid main() {\ngl_FragColor = vec4(1, 0, 0.5, 1);\n}";
+	const char *vertShaderSrc = vertShaderStr.c_str();
+	const char *fragShaderSrc = fragShaderStr.c_str();
+
+	GLint result = GL_FALSE;
+	int logLength;
+
+	// Compile vertex shader
+	std::cout << "Compiling vertex shader." << std::endl;
+	glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
+	glCompileShader(vertShader);
+
+	// Compile fragment shader
+	std::cout << "Compiling fragment shader." << std::endl;
+	glShaderSource(fragShader, 1, &fragShaderSrc, NULL);
+	glCompileShader(fragShader);
+
+	std::cout << "Linking program" << std::endl;
+	GLuint program = glCreateProgram();
+	glAttachShader(program, vertShader);
+	glAttachShader(program, fragShader);
+	glLinkProgram(program);
+
+	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+	std::vector<char> programError((logLength > 1) ? logLength : 1);
+	glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
+	std::cout << &programError[0] << std::endl;
+
+	glDeleteShader(vertShader);
+	glDeleteShader(fragShader);
+
+	return program;
+}
+
 int main() {
 
 	Apple a = Apple("Bob", 0xffffaa00, 7.2, 0.0221);
@@ -68,11 +110,10 @@ int main() {
 	cout << transform.toString() << endl;
 	Matrix3f ortho = Matrix3f();
 	ortho.initOrtho(-5 ,5 , -5, 5);
-
 	cout << pos->toString() << endl;
 
 	pos = transform* pos;
-
+	pos = ortho*pos;
 	cout << pos->toString() << endl;
 
 
@@ -85,12 +126,15 @@ int main() {
 	int length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);
 
-	glEnable(GL_DEPTH_TEST);
+
+	int program = LoadShader();
+
+
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, Window::getWidth(), Window::getHeight());
-	perspectiveGL(70, Window::aspectRatio(), 0.03f, 1000);
+	glOrtho(-5, 5, -5, 5, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
 	Input::mouseGrab(true);
@@ -98,104 +142,40 @@ int main() {
 	float ry = 0, rx = 0, zm = -4, time = 0;
 	int i = 0;
 
-	while (!Window::isCloseRequested()) {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+
+	GLuint vbo, ibo;
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);
+	int size = 6;
+
+	float  vertices[] = { 0, 0, 2, 4, 4, 0 };
+	int indices[] = {0,1,2};
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, 6, vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3, indices, GL_STATIC_DRAW);
+
+	while (!Window::isCloseRequested()) {
+		glClear(GL_COLOR_BUFFER_BIT);
+		
 		Timer::update();
 		Input::update();
+		glUseProgram(program);
+		glUniformMatrix3fv(0, 0, 9, ortho.getArray());
+		glEnableVertexAttribArray(0);
 
-		glLoadIdentity();
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-		glTranslatef(0, 0, zm);
-		time += 1.f;
+		glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
 
-		glRotatef(ry, 0, 1, 0);
-		glRotatef(rx, cosf(ry * 3.141592653589f / 180), 0, sinf(ry * 3.141592653589f / 180));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 
-		/* Sample Input */
-		ry += 0.1f * Input::getMDX();
-		rx += 0.1f * Input::getMDY();
-
-		if (Input::event(MOUSE_WHEEL_UP))
-			zm *= 1.1f;
-		if (Input::event(MOUSE_WHEEL_DOWN))
-			zm /= 1.1f;
-
-		if (Input::eventStarted(KEY_ESCAPE)) {
-			Input::mouseGrab(false);
-		}
-
-		if (Input::eventStarted(MOUSE_1)) {
-			Input::mouseGrab(true);
-		}
-
-		/* toggle through all the DisplayModes */
-		if (Input::eventStarted(KEY_SPACE)) {
-			DisplayMode dm = dmodes[i++ % length];
-			cout << "Mode: " << dm.width << " x " << dm.height << endl;
-			Window::setDisplayMode(&dm);
-			Window::initGL();
-			glEnable(GL_DEPTH_TEST);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glViewport(0, 0, Window::getWidth(), Window::getHeight());
-			perspectiveGL(70, Window::aspectRatio(), 0.03f, 1000);
-			glMatrixMode(GL_MODELVIEW);
-		}
-		
-
-		/*Sample Rendering */
-		int l = 200;
-		for (int i = 0; i < l * l; i++) {
-			glPushMatrix();
-			glTranslatef(0, i / l - (l / 2), i % l - (l / 2));
-			glScalef(.4f, .4f, .4f);
-			glBegin(GL_TRIANGLES);
-			{
-				glColor3f(0, 0, 1);
-				glVertex3f(-1, -1, 1);
-				glColor3f(0, 1, 0);
-				glVertex3f(0, 1, 0);
-				glColor3f(1, 0, 0);
-				glVertex3f(1, -1, 1);
-
-				glColor3f(1, 0, 0);
-				glVertex3f(1, -1, 1);
-				glColor3f(0, 1, 0);
-				glVertex3f(0, 1, 0);
-				glColor3f(0, 0, 1);
-				glVertex3f(1, -1, -1);
-
-				glColor3f(1, 0, 0);
-				glVertex3f(-1, -1, -1);
-				glColor3f(0, 1, 0);
-				glVertex3f(0, 1, 0);
-				glColor3f(0, 0, 1);
-				glVertex3f(1, -1, -1);
-
-				glColor3f(1, 0, 0);
-				glVertex3f(-1, -1, -1);
-				glColor3f(0, 1, 0);
-				glVertex3f(0, 1, 0);
-				glColor3f(0, 0, 1);
-				glVertex3f(-1, -1, 1);
-			}
-			glEnd();
-			glBegin(GL_QUADS);
-			{
-				glColor3f(1, 0, 0);
-				glVertex3f(-1, -1, -1);
-				glColor3f(0, 0, 1);
-				glVertex3f(1, -1, -1);
-				glColor3f(1, 0, 0);
-				glVertex3f(1, -1, 1);
-				glColor3f(0, 0, 1);
-				glVertex3f(-1, -1, 1);
-			}
-			glEnd();
-			glPopMatrix();
-		}
-
+		glDisableVertexAttribArray(0);
 		Window::update();
 
 	}
@@ -205,6 +185,8 @@ int main() {
 	return 0;
 
 }
+
+
 
 
 /* TEMP perspective Matrix */
