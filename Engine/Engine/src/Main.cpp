@@ -12,84 +12,71 @@
 #include "core/Matrix3f.h"
 #include "Apple.h"
 
+#include "core/Strings.h"
+
 using namespace std;
 
 void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 
-// char* toS(int x) {
-//	int digits[6], ln;
-//	bool neg = (x < 0);
-//
-//	if (neg) x = -x;
-//
-//	for (ln = 0; 10 <= x; ln++) {
-//		digits[ln] = x % 10;
-//		x /= 10;
-//	}
-//	digits[ln++] = x % 10;
-//
-//	//cout << ln << endl;
-//
-//	if (neg) ln++;
-//
-//	char* res = new char[ln + 1];
-//
-//	int i = 0;
-//
-//	if (neg)
-//		res[i] = '-';
-//
-//	for (; i < ln; i++) {
-//		res[(neg) ? i + 1 : i] = 48 + digits[i];
-//		//cout << digits[i] << endl;
-//	}
-//
-//	res[ln] = '\n';
-//
-//	return res;
-//}
+string getVS() {
+	return "#version 120\n" + nextline
+		+  "attribute vec2 position;" + nextline
+		+  "uniform mat3 MVP;" + nextline 
+		+  "void main() {" + nextline 
+		+  "gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 0, 1);" + nextline 
+		+  "}"; // vec4(ftransform().xyz, 1);
+}
 
+string getFS() {
+	return "#version 120" + nextline
+		+  "void main() {" + nextline
+		+  "gl_FragColor = vec4(1, 1, 1, 1);" + nextline
+		+  "}";
+}
 
-//GLuint LoadShader() {
-//	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-//	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-//
-//	// Read shaders
-//	std::string vertShaderStr = "#version 120\nattribute vec2 position;\nuniform mat3 MVP;\nvoid main() {\ngl_Position = vec4(MVP * vec3(position, 1.0), 1);\n}";
-//	std::string fragShaderStr = "#version 120\nvoid main() {\ngl_FragColor = vec4(1, 0, 0.5, 1);\n}";
-//	const char *vertShaderSrc = vertShaderStr.c_str();
-//	const char *fragShaderSrc = fragShaderStr.c_str();
-//
-//	GLint result = GL_FALSE;
-//	int logLength;
-//
-//	// Compile vertex shader
-//	std::cout << "Compiling vertex shader." << std::endl;
-//	glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
-//	glCompileShader(vertShader);
-//
-//	// Compile fragment shader
-//	std::cout << "Compiling fragment shader." << std::endl;
-//	glShaderSource(fragShader, 1, &fragShaderSrc, NULL);
-//	glCompileShader(fragShader);
-//
-//	std::cout << "Linking program" << std::endl;
-//	GLuint program = glCreateProgram();
-//	glAttachShader(program, vertShader);
-//	glAttachShader(program, fragShader);
-//	glLinkProgram(program);
-//
-//	glGetProgramiv(program, GL_LINK_STATUS, &result);
-//	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-//	std::vector<char> programError((logLength > 1) ? logLength : 1);
-//	glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
-//	std::cout << &programError[0] << std::endl;
-//
-//	glDeleteShader(vertShader);
-//	glDeleteShader(fragShader);
-//
-//	return program;
-//}
+GLuint LoadShader() {
+	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	// Read shaders
+	std::string vertShaderStr = getVS();
+	std::string fragShaderStr = getFS();
+	const char *vertShaderSrc = vertShaderStr.c_str();
+	const char *fragShaderSrc = fragShaderStr.c_str();
+
+	GLint result = GL_FALSE;
+	int logLength;
+
+	// Compile vertex shader
+	std::cout << "Compiling vertex shader." << std::endl;
+	glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
+	glCompileShader(vertShader);
+
+	// Compile fragment shader
+	std::cout << "Compiling fragment shader." << std::endl;
+	glShaderSource(fragShader, 1, &fragShaderSrc, NULL);
+	glCompileShader(fragShader);
+
+	int comp1;
+	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &comp1);
+
+	std::cout << "Linking program" << std::endl;
+	GLuint program = glCreateProgram();
+	glAttachShader(program, vertShader);
+	glAttachShader(program, fragShader);
+	glLinkProgram(program);
+
+	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+	std::vector<char> programError((logLength > 1) ? logLength : 1);
+	glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
+	std::cout << &programError[0] << std::endl;
+
+	glDeleteShader(vertShader);
+	glDeleteShader(fragShader);
+
+	return program;
+}
 
 int main() {
 
@@ -118,7 +105,7 @@ int main() {
 	cout << pos->toString() << endl;
 
 	pos = transform* pos;
-	cout << pos->toString() << endl;
+	std::cout << pos->toString() << endl;
 
 
 	Timer::setLogFPS(false);
@@ -126,62 +113,83 @@ int main() {
 	int length = 0;
 	DisplayMode* dmodes = Window::getAvailableDisplayModes(&length, ASPECT_16_9);
 
-
-	//int program = LoadShader();
-
-
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, Window::getWidth(), Window::getHeight());
 	glMatrixMode(GL_MODELVIEW);
-	glPointSize(10);
+	//glPointSize(10);
 
-	Input::mouseGrab(true);
+	Input::mouseGrab(false);
 
 	float ry = 0, rx = 0, zm = -4, time = 0;
 	int i = 0;
 
 
+	glewInit();
 
+	int program = LoadShader();
 
-	//GLuint vbo, ibo;
-	//glGenBuffers(1, &vbo);
-	//glGenBuffers(1, &ibo);
-	//int size = 6;
+	GLuint vbo, ibo;
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);
+	int size = 6;
 
-	//float  vertices[] = { 0, 0, 2, 4, 4, 0 };
-	//int indices[] = {0,1,2};
+	float  vertices[] = { -1, -1, 0, 1, 1, -1 };
+	int indices[] = {0,1,2};
 
-	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//glBufferData(GL_ARRAY_BUFFER, 6, vertices, GL_STATIC_DRAW);
+	int numvert = 3;
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * numvert, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 2 * numvert, vertices);
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3, indices, GL_STATIC_DRAW);
+	int numind = 3;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numind, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*numind, indices);
+
 	float rot = 0;
+
 	while (!Window::isCloseRequested()) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		Timer::update();
 
-		rot += Timer::getDelta();
+		//rot += Timer::getDelta();
 		Input::update();
-		Vector2f* p = ortho*(transform* pos);
+		/*Vector2f* p = ortho*(transform* pos);
 
-		glRectf(p->getX() - 1, p->getY() -1, p->getX() + 1, p->getY() + 1);
+		glBegin(GL_POINTS);
+		glVertex2f(p->getX(), p->getY());
+		glEnd();*/
 
-		/*glUseProgram(program);
-		glUniformMatrix3fv(0, 0, 9, ortho.getArray());
+		//glRectf(p->getX() - 1, p->getY() -1, p->getX() + 1, p->getY() + 1);
+
+		rot += Timer::getDelta();
+
+		
+		//glUseProgram(program);
+		//glUniform1f(0, rot);
+		//glUniformMatrix3fv(0, 9, GL_FALSE, new float[9] { 1, 0, 1, 1, 0, 0, 1, 0, 0});
+		//glUniformMatrix3fv(0, 1, GL_FALSE, ortho.getArray());
+
+		//glRectf(0, 0, 3, 3);
+
 		glEnableVertexAttribArray(0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
-
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 
-		glDisableVertexAttribArray(0);*/
+		//glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, sizeof(GLfloat) * 2, NULL);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+		//glDrawElements(GL_TRIANGLES, 1, GL_UNSIGNED_INT, indices);
+
+		glDisableVertexAttribArray(0);
+		
+
 		Window::update();
 
 	}

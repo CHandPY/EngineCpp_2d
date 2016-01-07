@@ -28,6 +28,8 @@ namespace strings {
 	string strhx(unsigned int val);
 	string strhx(unsigned long long val);
 
+	const string nextline = "\n";
+
 	namespace internal {
 		inline string strhx_internal(unsigned long long val, const int explicit_size);
 	}
