@@ -78,8 +78,8 @@ Matrix3f* Matrix3f::initTranslation(float x, float y) {
 Matrix3f* Matrix3f::initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate) {
 	initIdentity();
 	*this *= translate;
-	*this *= rotation;
 	*this *= scale;
+	*this *= rotation;
 	return this;
 }
 
