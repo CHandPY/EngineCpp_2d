@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Input.cpp" />
+    <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Strings.cpp" />
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\Timer.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\Apple.h" />
     <ClInclude Include="src\core\HashMap.h" />
     <ClInclude Include="src\core\Input.h" />
+    <ClInclude Include="src\core\Shader.h" />
     <ClInclude Include="src\core\Strings.h" />
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\Timer.h" />

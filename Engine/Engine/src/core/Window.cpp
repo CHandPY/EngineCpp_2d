@@ -25,18 +25,21 @@ void Window::window(DisplayMode* displayMode, const char * title, int windowMode
 		destroy();
 	}
 
-	setVSync(vSync);
 	w_displayMode = displayMode;
 	w_title = title;
 	w_windowMode = windowMode;
+	w_vSync = vSync;
 
 	makeWindow(mon);
+
+	setVSync(vSync);
 
 	setInputCallbacks();
 }
 
 void Window::initGL() {
 	glfwMakeContextCurrent(w_window);
+	setVSync(w_vSync);
 }
 
 void Window::update() {
@@ -65,7 +68,7 @@ void Window::setCursorMode(int mode) {
 }
 
 void Window::setVSync(bool vSync) {
-	glfwSwapInterval((vSync) ? 1 : 0);
+	glfwSwapInterval(0);
 }
 
 void Window::setDisplayMode(DisplayMode * displayMode) {
