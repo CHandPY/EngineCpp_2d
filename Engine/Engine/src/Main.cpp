@@ -176,18 +176,18 @@ int main() {
 
 		glEnableVertexAttribArray(0);
 
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
 		//glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, sizeof(GLfloat) * 2, NULL);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		//glEnableClientState(GL_VERTEX_ARRAY);
+		//glVertexPointer(3, GL_FLOAT, sizeof(GLfloat) * 2, NULL);
+		//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
+		//glDisableClientState(GL_VERTEX_ARRAY);
 
 		//glDrawElements(GL_TRIANGLES, 1, GL_UNSIGNED_INT, indices);
 
-		glDisableVertexAttribArray(0);
+	//	glDisableVertexAttribArray(0);
 		
 
 		Window::update();
