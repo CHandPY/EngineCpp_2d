@@ -1,7 +1,15 @@
+
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <math.h>
 #include <iostream>
+#include <stdio.h>
 
 #include "core/System.h"
 #include "core/Input.h"
@@ -12,6 +20,10 @@
 #include "core/Shader.h"
 
 #include "Apple.h"
+
+
+
+
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
@@ -102,8 +114,18 @@ GLuint LoadShader() {
 }
 
 int main() {
+	char test[1024];
+	FILE *fp = fopen("C:\\Users\\Pierre-Yves\\Desktop\\test.txt", "r");
+	fgets(test, 1023, fp); 
+	printf("%s", test);
 
-	int ln = 7, index = 6;
+
+
+
+
+
+
+	int ln = 7, index = 5;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
 
 	Window::init();
