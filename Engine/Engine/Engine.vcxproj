@@ -173,6 +173,10 @@
     <ClInclude Include="src\core\ToString.h" />
     <ClInclude Include="src\core\Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\test.frag" />
+    <None Include="res\shaders\test.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

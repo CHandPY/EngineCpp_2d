@@ -4,6 +4,7 @@ Shader::Shader(GLuint program) {
 	m_program = program;
 }
 
+/* CHANGE LATER TO NO DELET ON ~ */
 Shader::~Shader() {
 	glDeleteProgram(m_program);
 }
@@ -13,33 +14,21 @@ void Shader::use() {
 }
 
 Shader * Shader::load(const char * name) {
-	string vs_src, fs_src, line;
-	cout << SHADER_DIR_LOC + string(name) + ".vs" << endl;
-	ifstream vsf(SHADER_DIR_LOC + string(name) + ".vs"), fsf(SHADER_DIR_LOC + string(name) + ".fs");
-	// Vertex shader
-	if (vsf.is_open()) {
-		while (getline(vsf, line)) {
-			vs_src += line + "\n";
-		}
-		vsf.close();
-	} else {
-		cout << "Unable to open file for vertex shader" << endl;
-		return nullptr;
-	}
-	// Fragment shader
-	if (fsf.is_open()) {
-		while (getline(fsf, line)) {
-			fs_src += line + "\n";
-		}
-		fsf.close();
-	} else {
-		cout << "Unable to open file for vertex shader" << endl;
-		return nullptr;
-	}
-	return load(vs_src.c_str(), fs_src.c_str());
+	int vsl;
+	string* vsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".vs").c_str(), &vsl);
+	string vs = "";
+	for (int i = 0; i < vsl; i++)
+		vs += vsa[i];
+	int fsl;
+	string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".fs").c_str(), &fsl);
+	string fs = "";
+	for (int i = 0; i < fsl; i++)
+		fs += fsa[i];
+	return load(vs.c_str(), fs.c_str());
 }
 
 Shader * Shader::load(const char * vs_text, const char * fs_text) {
+
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 

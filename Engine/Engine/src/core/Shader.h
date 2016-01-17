@@ -6,11 +6,11 @@
 
 #include <GL/glew.h>
 
-// i changed somthing
+#include "IO.h"
 
 using namespace std;
 
-#define SHADER_DIR_LOC "C:\\"
+#define SHADER_DIR_LOC "res/shaders/"
 
 class Shader {
 

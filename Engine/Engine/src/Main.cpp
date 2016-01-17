@@ -18,6 +18,7 @@
 #include "core/HashMap.h"
 #include "core/Strings.h"
 #include "core/Shader.h"
+#include "core/IO.h"
 
 #include "Apple.h"
 
@@ -114,16 +115,6 @@ GLuint LoadShader() {
 }
 
 int main() {
-	char test[1024];
-	FILE *fp = fopen("C:\\Users\\Pierre-Yves\\Desktop\\test.txt", "r");
-	fgets(test, 1023, fp); 
-	printf("%s", test);
-
-
-
-
-
-
 
 	int ln = 7, index = 5;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
@@ -132,7 +123,7 @@ int main() {
 	glfwWindowHint(GLFW_SAMPLES, msaa[index]);
 	Window::window(1920, 1080, "Hello World", WINDOWED, true);
 	Window::initGL();
-	Timer::setLogFPS(true);
+	Timer::setLogFPS(false);
 	
 	//glViewport(0, 0, 1440, 900);
 
@@ -210,32 +201,7 @@ int main() {
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices1), vertices1);
 	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_colors1), vertex_colors1);
 
-	// FOR VAO
-	//GLuint vao, buffer;
-	//
-	//glGenVertexArrays(1, &vao);
-	//glBindVertexArray(vao);
-	//
-	//GLfloat vertices[6][2] = {
-	//	{ -0.50, -0.50 }, // Triangle 1
-	//	{ 0.50, -0.50 },
-	//	{ -0.50, 0.50 },
-	//	{ 0.50, -0.50 }, // Triangle 2
-	//	{ 0.50, 0.50 },
-	//	{ -0.50, 0.50 }
-	//};
-	//
-	//glGenBuffers(1, &buffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	//
-	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	//glEnableVertexAttribArray(0);
-
-	//GLuint program = LoadShader();
-	//glUseProgram(program);
-
-	Shader* s = Shader::load(getVS().c_str(), getFS().c_str());
+	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
 
 	int loc = 0;

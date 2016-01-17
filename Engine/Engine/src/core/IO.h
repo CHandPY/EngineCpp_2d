@@ -1,11 +1,16 @@
 #pragma once
-#include <stdio.h>
+
+#define CHAR_AMT 1024
+
 #include <iostream>
+#include <vector>
+#include <string>
 
-class IO{
+using namespace std;
 
-	char **load(char *filepath, int *length);
+class IO {
 
-
+public:
+	static string* load(const char *filepath, int *length);
 
 };

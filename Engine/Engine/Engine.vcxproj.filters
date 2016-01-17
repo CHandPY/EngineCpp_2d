@@ -19,6 +19,9 @@
     <Filter Include="Header Files\core">
       <UniqueIdentifier>{c0b63e67-9df8-4081-b4d8-36263a0fc0bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{e9e66ba7-fe2b-4656-b3d6-482054172a4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -77,5 +80,13 @@
     <ClInclude Include="src\Apple.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\test.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="res\shaders\test.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
