@@ -15,12 +15,12 @@ void Shader::use() {
 
 Shader * Shader::load(const char * name) {
 	int vsl;
-	string* vsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".vs").c_str(), &vsl);
+	string* vsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".vert").c_str(), &vsl);
 	string vs = "";
 	for (int i = 0; i < vsl; i++)
 		vs += vsa[i];
 	int fsl;
-	string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".fs").c_str(), &fsl);
+	string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".frag").c_str(), &fsl);
 	string fs = "";
 	for (int i = 0; i < fsl; i++)
 		fs += fsa[i];
