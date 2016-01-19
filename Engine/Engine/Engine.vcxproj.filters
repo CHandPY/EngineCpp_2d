@@ -22,6 +22,18 @@
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{e9e66ba7-fe2b-4656-b3d6-482054172a4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\render">
+      <UniqueIdentifier>{509cdf89-2c76-497f-b77b-01c7386a2f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\render">
+      <UniqueIdentifier>{7d94e4e8-ecb4-4cef-8f2a-1852d7852457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\lodepng">
+      <UniqueIdentifier>{4ed9db23-4483-48ba-9737-b90818b7e6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\lodepng">
+      <UniqueIdentifier>{20541f7c-72f8-43cb-9599-68cce0a75b1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -42,11 +54,17 @@
     <ClCompile Include="src\core\Timer.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Shader.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\IO.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Shader.cpp">
+      <Filter>Source Files\core\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\lodepng.cpp">
+      <Filter>Source Files\core\lodepng</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Texture.cpp">
+      <Filter>Source Files\core\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,14 +89,17 @@
     <ClInclude Include="src\core\Window.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Shader.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\IO.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Apple.h">
-      <Filter>Source Files\core</Filter>
+    <ClInclude Include="src\core\Shader.h">
+      <Filter>Header Files\core\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\lodepng.h">
+      <Filter>Header Files\core\lodepng</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Texture.h">
+      <Filter>Header Files\core\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

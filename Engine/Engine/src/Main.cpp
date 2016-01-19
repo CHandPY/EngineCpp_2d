@@ -20,45 +20,16 @@
 #include "core/Shader.h"
 #include "core/IO.h"
 
-#include "Apple.h"
-
-
-
-
+#include "core/lodepng.h"
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
 
 using namespace std;
 
-string nextline = "\n";
-
-string getVS() {
-	return GLSL("#version 430 core",
-	layout(location = 0) in vec2 vPosition;
-	layout(location = 1) in vec3 color;
-	uniform mat3 proj; 
-	out vec3 col;
-	void main() {
-		col = color;
-		gl_Position = vec4(proj * vec3(vPosition, 0), 1);
-	}
-	); // vec4(ftransform().xyz, 1);
-}
-
-string getFS() {
-	return GLSL("#version 430 core", 
-	out vec4 fragColor;
-	sample in vec3 col;
-	void main() {
-		fragColor = vec4(col, 1.0);
-	}
-	);
-}
-
 float * initOrtho(float left, float right, float bottom, float top) {
 	float * m_mat = new float[9];
-	m_mat[0] = 3 / (right - left);
+	m_mat[0] = 2 / (right - left);
 	m_mat[1] = 0;
 	m_mat[2] = -(right + left) / (right - left);
 	m_mat[3] = 0;
@@ -70,60 +41,16 @@ float * initOrtho(float left, float right, float bottom, float top) {
 	return m_mat;
 }
 
-GLuint LoadShader() {
-	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// Read shaders
-	std::string vertShaderStr = getVS();
-	std::string fragShaderStr = getFS();
-	const char *vertShaderSrc = vertShaderStr.c_str();
-	const char *fragShaderSrc = fragShaderStr.c_str();
-
-	GLint result = GL_FALSE;
-	int logLength;
-
-	// Compile vertex shader
-	std::cout << "Compiling vertex shader." << std::endl;
-	glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
-	glCompileShader(vertShader);
-
-	// Compile fragment shader
-	std::cout << "Compiling fragment shader." << std::endl;
-	glShaderSource(fragShader, 1, &fragShaderSrc, NULL);
-	glCompileShader(fragShader);
-
-	int comp1;
-	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &comp1);
-
-	std::cout << "Linking program" << std::endl;
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
-	glLinkProgram(program);
-
-	glGetProgramiv(program, GL_LINK_STATUS, &result);
-	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-	std::vector<char> programError((logLength > 1) ? logLength : 1);
-	glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
-	std::cout << &programError[0] << std::endl;
-
-	glDeleteShader(vertShader);
-	glDeleteShader(fragShader);
-
-	return program;
-}
-
 int main() {
 
-	int ln = 7, index = 5;
+	int ln = 7, index = 7;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
 
 	Window::init();
 	glfwWindowHint(GLFW_SAMPLES, msaa[index]);
 	Window::window(1920, 1080, "Hello World", WINDOWED, true);
 	Window::initGL();
-	Timer::setLogFPS(false);
+	Timer::setLogFPS(true);
 	
 	//glViewport(0, 0, 1440, 900);
 
@@ -142,6 +69,45 @@ int main() {
 	}
 	*/
 
+	// textures tests
+
+	std::vector<unsigned char> image;
+	unsigned width, height;
+	//unsigned error = lodepng::decode(image, width, height, "test.png");
+	//cout << error << endl;
+
+	GLubyte *imageFix;// = new GLubyte[image.size()];
+	//int mod = sizeof(unsigned char);
+	//int side = int(sqrtf(image.size() / 4));
+
+	//int cnt = 0;
+	//for (int x = side - 1; x >= 0; x--) {
+		//for (int y = 0; y < side; y++) {
+			//imageFix[(y + (x * side)) * 4 + 0] = image[cnt++];
+			//imageFix[(y + (x * side)) * 4 + 1] = image[cnt++];
+			//imageFix[(y + (x * side)) * 4 + 2] = image[cnt++];
+			//imageFix[(y + (x * side)) * 4 + 3] = image[cnt++];
+		//}
+	//}
+
+	imageFix = IO::loadPNG(width, height, "test.png");
+
+	srand(0);
+
+	GLuint tex;
+	glGenTextures(1, &tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
+	glTexSubImage2D(GL_TEXTURE_2D, // target
+		0, // First mipmap level
+		0, 0, // x and y offset
+		width, height, // width and height
+		GL_RGBA, GL_UNSIGNED_BYTE, // format and type
+		imageFix);//&image[0]);
 	
 	// VBO + IBO
 	GLuint vbo, vbo1;
@@ -164,16 +130,22 @@ int main() {
 	};
 
 	const GLfloat vertices1[] = {
-		-2.0f, -2.0f, 0.0f, 1.0f,
-		2.0f, -2.0f, 0.0f, 1.0f,
-		-2.0f, 2.0f, 0.0f, 1.0f,
-		2.0f, 2.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 1.0f,
+		2.0f, -1.0f, 0.0f, 1.0f,
+		-2.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 1.0f,
 	};
 	const GLfloat vertex_colors1[] = {
 		0.0f, 0.0f, 0.3f, 1.0f,
 		0.0f, 0.0f, 0.3f, 1.0f,
 		0.0f, 0.0f, 0.3f, 1.0f,
 		0.0f, 0.0f, 0.3f, 1.0f
+	};
+	const GLfloat vertex_tex1[] = {
+		0, 0,
+		1, 0,
+		0, 1,
+		1, 1
 	};
 	static const GLushort vertex_indices1[] = {
 		0, 1, 2, 1, 3, 2
@@ -197,17 +169,18 @@ int main() {
 
 	glGenBuffers(1, &vbo1);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1) + sizeof(vertex_colors1), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1) + /*sizeof(vertex_colors1)*/ sizeof(vertex_tex1) , NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices1), vertices1);
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_colors1), vertex_colors1);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_tex1), vertex_tex1);
+	//glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_colors1), vertex_colors1);
 
 	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
 
 	int loc = 0;
 	//loc = glGetUniformLocation(program, "proj");
-	glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(-Window::aspectRatio() * 1, Window::aspectRatio() * 1, -1, 1));
-	//glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(-1, 1, -1, 1));
+	//glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(- 2,  2, -2, 2));
+	float ns;
 
 	float i = 0, j = 0, k = 0;
 
@@ -215,8 +188,12 @@ int main() {
 	glGetIntegerv(GL_SAMPLES, &res);
 	cout << "samples = " << res << endl;
 
-
+	srand(0);
 	while (!Window::isCloseRequested()) {
+
+		ns = sinf(System::timeSec()) * 2 + 3;
+		glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(ns * -Window::aspectRatio(), ns * Window::aspectRatio(), -ns, ns));
+
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		Timer::update();
@@ -229,12 +206,9 @@ int main() {
 			//Window::initGL();
 		}
 
+		s->use();
 		// enable MSAA
 		glEnable(GL_MULTISAMPLE);
-
-		struct quat {
-			float x, y, z, w;
-		};
 
 		// render meshes
 
@@ -247,7 +221,8 @@ int main() {
 		// bind VBO and pass vertex attribs for mesh1
 		glBindBuffer(GL_ARRAY_BUFFER, vbo1);
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
+		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		// render mesh1
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
@@ -255,12 +230,12 @@ int main() {
 		//glUseProgram(program);
 
 		// bind VBO and pass vertex attribs for mesh0
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices1)));
+		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices1)));
 		// render mesh0
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -274,4 +249,9 @@ int main() {
 
 	Window::end();
 	return 0;
+}
+
+double hm(int n) {
+	if (n <= 1) return 1;
+	return (1 / n) + hm(n - 1);
 }

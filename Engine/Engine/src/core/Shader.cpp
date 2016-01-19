@@ -15,12 +15,13 @@ void Shader::use() {
 
 Shader * Shader::load(const char * name) {
 	int vsl;
-	string* vsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".vert").c_str(), &vsl);
+	string* vsa = IO::load(SHADER_PATH(name, SHADER_VERTEX), &vsl);
 	string vs = "";
 	for (int i = 0; i < vsl; i++)
 		vs += vsa[i];
 	int fsl;
-	string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + ".frag").c_str(), &fsl);
+	//string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + "." + SHADER_FRAGMENT).c_str(), &fsl);
+	string* fsa = IO::load(SHADER_PATH(name, SHADER_FRAGMENT), &fsl);
 	string fs = "";
 	for (int i = 0; i < fsl; i++)
 		fs += fsa[i];
@@ -42,6 +43,18 @@ Shader * Shader::load(const char * vs_text, const char * fs_text) {
 	glAttachShader(program, vertShader);
 	glAttachShader(program, fragShader);
 	glLinkProgram(program);
+
+	GLint result = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	if (result) {
+		int logLength;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+		if (logLength > 1) {
+			std::vector<char> programError(logLength);
+			glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
+			std::cout << &programError[0] << std::endl;
+		}
+	}
 
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
