@@ -34,6 +34,12 @@
     <Filter Include="Source Files\core\lodepng">
       <UniqueIdentifier>{20541f7c-72f8-43cb-9599-68cce0a75b1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\math">
+      <UniqueIdentifier>{266caca8-8910-44ff-ae76-e861c84c2319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\math">
+      <UniqueIdentifier>{4ccdd322-a405-4c7f-9bbc-93c6c6c08404}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -54,17 +60,20 @@
     <ClCompile Include="src\core\Timer.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Texture.cpp">
+      <Filter>Source Files\core\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\lodepng.cpp">
+      <Filter>Source Files\core\lodepng</Filter>
+    </ClCompile>
     <ClCompile Include="src\core\IO.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="src\core\Shader.cpp">
       <Filter>Source Files\core\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\lodepng.cpp">
-      <Filter>Source Files\core\lodepng</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\Texture.cpp">
-      <Filter>Source Files\core\render</Filter>
+    <ClCompile Include="src\core\Vector2f.cpp">
+      <Filter>Source Files\core\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,17 +98,20 @@
     <ClInclude Include="src\core\Window.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Texture.h">
+      <Filter>Header Files\core\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\lodepng.h">
+      <Filter>Header Files\core\lodepng</Filter>
+    </ClInclude>
     <ClInclude Include="src\core\IO.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Shader.h">
       <Filter>Header Files\core\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\lodepng.h">
-      <Filter>Header Files\core\lodepng</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\Texture.h">
-      <Filter>Header Files\core\render</Filter>
+    <ClInclude Include="src\core\Vector2f.h">
+      <Filter>Header Files\core\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

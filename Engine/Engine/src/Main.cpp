@@ -88,7 +88,7 @@ int main() {
 			//imageFix[(y + (x * side)) * 4 + 2] = image[cnt++];
 			//imageFix[(y + (x * side)) * 4 + 3] = image[cnt++];
 		//}
-	//}
+	//}5
 
 	imageFix = IO::loadPNG(width, height, "test.png");
 
