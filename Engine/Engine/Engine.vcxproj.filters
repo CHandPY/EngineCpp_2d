@@ -75,6 +75,9 @@
     <ClCompile Include="src\core\Vector2f.cpp">
       <Filter>Source Files\core\math</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Matrix3f.cpp">
+      <Filter>Source Files\core\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\HashMap.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files\core\render</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Vector2f.h">
+      <Filter>Header Files\core\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Matrix3f.h">
       <Filter>Header Files\core\math</Filter>
     </ClInclude>
   </ItemGroup>

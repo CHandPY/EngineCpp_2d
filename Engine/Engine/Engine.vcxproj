@@ -161,6 +161,7 @@
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\IO.cpp" />
     <ClCompile Include="src\core\lodepng.cpp" />
+    <ClCompile Include="src\core\Matrix3f.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Strings.cpp" />
     <ClCompile Include="src\core\System.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\IO.h" />
     <ClInclude Include="src\core\lodepng.h" />
+    <ClInclude Include="src\core\Matrix3f.h" />
     <ClInclude Include="src\core\Shader.h" />
     <ClInclude Include="src\core\Strings.h" />
     <ClInclude Include="src\core\System.h" />

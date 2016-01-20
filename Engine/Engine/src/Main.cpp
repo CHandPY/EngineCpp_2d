@@ -19,6 +19,8 @@
 #include "core/Strings.h"
 #include "core/Shader.h"
 #include "core/IO.h"
+#include "core/Texture.h"
+#include "core/Matrix3f.h"
 
 #include "core/lodepng.h"
 
@@ -26,20 +28,6 @@
 #define GLSL(version, src) version "\n" #src
 
 using namespace std;
-
-float * initOrtho(float left, float right, float bottom, float top) {
-	float * m_mat = new float[9];
-	m_mat[0] = 2 / (right - left);
-	m_mat[1] = 0;
-	m_mat[2] = -(right + left) / (right - left);
-	m_mat[3] = 0;
-	m_mat[4] = 2 / (top - bottom);
-	m_mat[5] = -(top + bottom) / (top - bottom);
-	m_mat[6] = 0;
-	m_mat[7] = 0;
-	m_mat[8] = 1;
-	return m_mat;
-}
 
 int main() {
 
@@ -71,59 +59,39 @@ int main() {
 
 	// textures tests
 
-	std::vector<unsigned char> image;
+	GLubyte *image0, *image1;
+
 	unsigned width, height;
-	//unsigned error = lodepng::decode(image, width, height, "test.png");
-	//cout << error << endl;
+	image0 = IO::loadPNG(width, height, "test.png");
+	Texture *t = new Texture(Texture::load2D_nicest(width, height, image0));
 
-	GLubyte *imageFix;// = new GLubyte[image.size()];
-	//int mod = sizeof(unsigned char);
-	//int side = int(sqrtf(image.size() / 4));
+	unsigned width1, height1;
+	image1 = IO::loadPNG(width1, height1, "bricks.png");
+	Texture *t1 = new Texture(Texture::load2D_nicest(width1, height1, image1));
+	//t->bind(0);
 
-	//int cnt = 0;
-	//for (int x = side - 1; x >= 0; x--) {
-		//for (int y = 0; y < side; y++) {
-			//imageFix[(y + (x * side)) * 4 + 0] = image[cnt++];
-			//imageFix[(y + (x * side)) * 4 + 1] = image[cnt++];
-			//imageFix[(y + (x * side)) * 4 + 2] = image[cnt++];
-			//imageFix[(y + (x * side)) * 4 + 3] = image[cnt++];
-		//}
-	//}5
-
-	imageFix = IO::loadPNG(width, height, "test.png");
-
-	srand(0);
-
-	GLuint tex;
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
-	glTexSubImage2D(GL_TEXTURE_2D, // target
-		0, // First mipmap level
-		0, 0, // x and y offset
-		width, height, // width and height
-		GL_RGBA, GL_UNSIGNED_BYTE, // format and type
-		imageFix);//&image[0]);
 	
 	// VBO + IBO
 	GLuint vbo, vbo1;
 	GLuint ibo, ibo1;
 
 	const GLfloat vertices[] = {
-		-1.0f, -1.0f, 0.0f, 1.0f,
-		0.8f, -1.0f, 0.0f, 1.0f,
-		-0.8f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 0.0f, 1.0f,
+		-2.0f, -2.0f, 0.0f, 1.0f,
+		2.0f, -2.0f, 0.0f, 1.0f,
+		-2.0f, 2.0f, 0.0f, 1.0f,
+		2.0f, 2.0f, 0.0f, 1.0f,
 	};
 	const GLfloat vertex_colors[] = {
 		1.0f, 1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 1.0f, 1.0f,
 		0.0f, 1.0f, 1.0f, 1.0f
+	};
+	const GLfloat vertex_tex[] = {
+		0, 0,
+		1, 0,
+		0, 1,
+		1, 1
 	};
 	static const GLushort vertex_indices[] = {
 		0, 1, 2, 1, 3, 2
@@ -158,9 +126,9 @@ int main() {
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(vertex_colors), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(vertex_tex), NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(vertex_colors), vertex_colors);
+	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(vertex_tex), vertex_tex);
 
 	// gen Mesh 1
 	glGenBuffers(1, &ibo1);
@@ -180,7 +148,7 @@ int main() {
 	int loc = 0;
 	//loc = glGetUniformLocation(program, "proj");
 	//glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(- 2,  2, -2, 2));
-	float ns;
+	float ns = 2;;
 
 	float i = 0, j = 0, k = 0;
 
@@ -188,11 +156,17 @@ int main() {
 	glGetIntegerv(GL_SAMPLES, &res);
 	cout << "samples = " << res << endl;
 
+	Matrix3f *proj = new Matrix3f(), *scale = new Matrix3f(), *result;
+	proj->initOrtho(1 * -Window::aspectRatio(), 1 * Window::aspectRatio(), -1, 1);
+
 	srand(0);
 	while (!Window::isCloseRequested()) {
 
 		ns = sinf(System::timeSec()) * 2 + 3;
-		glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(ns * -Window::aspectRatio(), ns * Window::aspectRatio(), -ns, ns));
+		scale->initScale(1/ns, 1/ns);
+		//*proj *= scale;
+		result = (*proj) * (scale);
+		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -218,24 +192,28 @@ int main() {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 
+		t1->bind(0);
+
 		// bind VBO and pass vertex attribs for mesh1
-		glBindBuffer(GL_ARRAY_BUFFER, vbo1);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
-		// render mesh1
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
+		// render mesh0
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		//glUseProgram(program);
 
+		t->bind(0);
+
 		// bind VBO and pass vertex attribs for mesh0
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices1)));
-		// render mesh0
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+		glBindBuffer(GL_ARRAY_BUFFER, vbo1);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices1)));
+		// render mesh1
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

@@ -32,7 +32,7 @@ public:
 	/* basic math operators */
 	Vector2f* operator+  (Vector2f*);
 	Vector2f* operator-  (Vector2f*);
-	float operator*  (Vector2f*);
+	float operator*      (Vector2f*);
 	/* basic math operators with float */
 	Vector2f* operator+  (float);
 	Vector2f* operator-  (float);
