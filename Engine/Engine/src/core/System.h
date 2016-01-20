@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 
 using namespace std;
 

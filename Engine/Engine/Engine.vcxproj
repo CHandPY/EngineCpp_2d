@@ -106,10 +106,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\GL\glfw\glfw-3.1.2.bin.WIN32\include;C:\GL\glew\glew-1.13.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\GL\glfw\glfw-3.1.2.bin.WIN32\lib-vc2015;C:\GL\glew\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -143,19 +146,24 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\GL\glfw\glfw-3.1.2.bin.WIN32\include;C:\GL\glew\glew-1.13.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\GL\glfw\glfw-3.1.2.bin.WIN32\lib-vc2015;C:\GL\glew\glew-1.13.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Input.cpp" />
+    <ClCompile Include="src\core\Matrix3f.cpp" />
     <ClCompile Include="src\core\Strings.cpp" />
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\Timer.cpp" />
+    <ClCompile Include="src\core\Vector2f.cpp" />
     <ClCompile Include="src\core\Window.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
@@ -163,10 +171,12 @@
     <ClInclude Include="src\Apple.h" />
     <ClInclude Include="src\core\HashMap.h" />
     <ClInclude Include="src\core\Input.h" />
+    <ClInclude Include="src\core\Matrix3f.h" />
     <ClInclude Include="src\core\Strings.h" />
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\Timer.h" />
     <ClInclude Include="src\core\ToString.h" />
+    <ClInclude Include="src\core\Vector2f.h" />
     <ClInclude Include="src\core\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
