@@ -22,8 +22,6 @@
 #include "core/Matrix3f.h"
 #include "core/Mesh.h"
 
-#include "core/lodepng.h"
-
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
 
@@ -45,17 +43,9 @@ int main() {
 	glewInit();
 
 	/* print all extensions */
-	/*
-	const GLubyte* s = glGetString(GL_EXTENSIONS);
-	int i = 0;
-	while (s[i] != 0) {
-	if (s[i] == ' ')
-	cout << "\n";
-	else
-	cout << s[i];
-	i++;
-	}
-	*/
+
+	cout << glGetString(GL_VERSION) << endl;
+	cout << glGetString(GL_VENDOR) << endl;
 
 	// textures tests
 
