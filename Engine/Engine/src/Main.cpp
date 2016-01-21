@@ -1,4 +1,3 @@
-
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -21,6 +20,7 @@
 #include "core/IO.h"
 #include "core/Texture.h"
 #include "core/Matrix3f.h"
+#include "core/Mesh.h"
 
 #include "core/lodepng.h"
 
@@ -39,7 +39,7 @@ int main() {
 	Window::window(1920, 1080, "Hello World", WINDOWED, true);
 	Window::initGL();
 	Timer::setLogFPS(true);
-	
+
 	//glViewport(0, 0, 1440, 900);
 
 	glewInit();
@@ -70,7 +70,7 @@ int main() {
 	Texture *t1 = new Texture(Texture::load2D_nicest(width1, height1, image1));
 	//t->bind(0);
 
-	
+
 	// VBO + IBO
 	GLuint vbo, vbo1;
 	GLuint ibo, ibo1;
@@ -137,10 +137,28 @@ int main() {
 
 	glGenBuffers(1, &vbo1);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1) + /*sizeof(vertex_colors1)*/ sizeof(vertex_tex1) , NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1) + /*sizeof(vertex_colors1)*/ sizeof(vertex_tex1), NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices1), vertices1);
 	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_tex1), vertex_tex1);
 	//glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_colors1), vertex_colors1);
+
+	 GLfloat vs[] = {
+		-2.0f, -2.0f, 0.0f, 1.0f,
+		2.0f, -2.0f, 0.0f, 1.0f,
+		-2.0f, 2.0f, 0.0f, 1.0f,
+		2.0f, 2.0f, 0.0f, 1.0f,
+	};
+	 GLfloat vt[] = {
+		0, 0,
+		1, 0,
+		0, 1,
+		1, 1
+	};
+	GLuint vi[] = {
+		0, 1, 2, 1, 3, 2
+	};
+
+	Mesh *m = new Mesh(Mesh::load(vs, sizeof(vs), vt, sizeof(vt), vi, sizeof(vi)));
 
 	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
@@ -163,7 +181,7 @@ int main() {
 	while (!Window::isCloseRequested()) {
 
 		ns = sinf(System::timeSec()) * 2 + 3;
-		scale->initScale(1/ns, 1/ns);
+		scale->initScale(1 / ns, 1 / ns);
 		//*proj *= scale;
 		result = (*proj) * (scale);
 		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
@@ -204,6 +222,8 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		//glUseProgram(program);
+
+		//m->draw();
 
 		t->bind(0);
 
