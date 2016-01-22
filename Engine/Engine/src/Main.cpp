@@ -223,7 +223,7 @@ int main() {
 
 		//glUseProgram(program);
 
-		m->draw(vbo, ibo);
+		m->draw(vbo, ibo); // PLOX COMMT
 
 		t->bind(0);
 
