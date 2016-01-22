@@ -20,6 +20,7 @@
 #include "core/IO.h"
 #include "core/Texture.h"
 #include "core/Matrix3f.h"
+#include "core/Mesh.h"
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
@@ -104,7 +105,7 @@ int main() {
 		0, 1,
 		1, 1
 	};
-	static const GLushort vertex_indices1[] = {
+	const GLushort vertex_indices1[] = {
 		0, 1, 2, 1, 3, 2
 	};
 
@@ -122,7 +123,7 @@ int main() {
 	// gen Mesh 1
 	glGenBuffers(1, &ibo1);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertex_indices1), vertex_indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertex_indices1), vertex_indices1, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &vbo1);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
@@ -147,13 +148,15 @@ int main() {
 		0, 1, 2, 1, 3, 2
 	};
 
+	Mesh *m = new Mesh(Mesh::load(vertices, sizeof(vertices), vertex_tex, sizeof(vertex_tex), vertex_indices, sizeof(vertex_indices)));
+
 	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
 
 	int loc = 0;
 	//loc = glGetUniformLocation(program, "proj");
 	//glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(- 2,  2, -2, 2));
-	float ns = 2;;
+	float ns = 2;
 
 	float i = 0, j = 0, k = 0;
 
@@ -200,15 +203,17 @@ int main() {
 		t1->bind(0);
 
 		// bind VBO and pass vertex attribs for mesh1
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
+		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		// render mesh0
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		//glUseProgram(program);
+
+		m->draw(vbo, ibo); // PLOX COMMT
 
 		t->bind(0);
 
