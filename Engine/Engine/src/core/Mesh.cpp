@@ -15,8 +15,6 @@ Mesh::~Mesh() {
 
 void Mesh::draw(GLuint vbo, GLuint ibo) {
 
-	std::cout << m_res.m_ibo << " " << m_res.m_vbo << std::endl;
-
 	//glEnableVertexAttribArray(0);
 	//glEnableVertexAttribArray(1);
 
