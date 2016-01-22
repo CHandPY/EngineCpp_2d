@@ -5,29 +5,32 @@ MeshResource::MeshResource(GLuint vbo, GLuint ibo) {
 	m_ibo = ibo;
 }
 
+#include <iostream>
+
 Mesh::Mesh(MeshResource res) : m_res(res) {
 }
 
 Mesh::~Mesh() {
 }
 
-void Mesh::draw() {
+void Mesh::draw(GLuint vbo, GLuint ibo) {
+
+	std::cout << m_res.m_ibo << " " << m_res.m_vbo << std::endl;
+
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_res.m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(m_res.TEMP_MID_SIZE));
 	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 	// render mesh0s
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_res.m_ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
+	//glDisableVertexAttribArray(0);
+	//glDisableVertexAttribArray(1);
 }
-
-#include <iostream>
 
 MeshResource Mesh::load(float * vertices, int v_length, float * textels, int t_length, unsigned int * indices, int i_length) {
 	GLuint vbo, ibo;
