@@ -20,7 +20,7 @@ public:
 
 	void draw(GLuint vbo, GLuint ibo);
 
-	static MeshResource load(float * vertices, int v_length, float * textels, int t_length, unsigned int * indices, int i_length);
+	static MeshResource load(const GLfloat *vertices, const GLuint v_length, const GLfloat * texels, const GLuint t_length, const GLushort * indices, const GLuint i_length);
 
 private:
 	MeshResource m_res;
