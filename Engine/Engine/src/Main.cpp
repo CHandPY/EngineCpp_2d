@@ -20,7 +20,6 @@
 #include "core/IO.h"
 #include "core/Texture.h"
 #include "core/Matrix3f.h"
-#include "core/Mesh.h"
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
@@ -148,8 +147,6 @@ int main() {
 		0, 1, 2, 1, 3, 2
 	};
 
-	Mesh *m = new Mesh(Mesh::load(vs, sizeof(vs), vt, sizeof(vt), vi, sizeof(vi)));
-
 	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
 
@@ -203,17 +200,15 @@ int main() {
 		t1->bind(0);
 
 		// bind VBO and pass vertex attribs for mesh1
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
 		// render mesh0
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
 		//glUseProgram(program);
-
-		m->draw(vbo, ibo); // PLOX COMMT
 
 		t->bind(0);
 
