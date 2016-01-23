@@ -2,9 +2,7 @@
 
 #include <GL/glew.h>
 
-class Texture {
-
-struct TextureResource {		
+struct TextureResource {
 	GLuint i_ID;
 	GLuint i_width, i_height, i_depth;
 	GLenum i_target;
@@ -12,6 +10,8 @@ struct TextureResource {
 	TextureResource(GLuint ID, GLenum target, GLuint width, GLuint height, GLuint depth);
 	TextureResource();
 };
+
+class Texture {
 
 public:
 	Texture(TextureResource res);

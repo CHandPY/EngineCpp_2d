@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::TextureResource::TextureResource(GLuint ID, GLenum target, GLuint width, GLuint height, GLuint depth) {
+TextureResource::TextureResource(GLuint ID, GLenum target, GLuint width, GLuint height, GLuint depth) {
 	i_ID = ID;
 	i_target = target;
 	i_width = width;
@@ -8,10 +8,10 @@ Texture::TextureResource::TextureResource(GLuint ID, GLenum target, GLuint width
 	i_depth = depth;
 }
 
-Texture::TextureResource::TextureResource() : TextureResource(0, 0, 0, 0, 0) { 
+TextureResource::TextureResource() : TextureResource(0, 0, 0, 0, 0) { 
 }
 
-Texture::Texture(Texture::TextureResource res) {
+Texture::Texture(TextureResource res) {
 	m_res = res;
 }
 
@@ -24,7 +24,7 @@ void Texture::bind(GLuint slot) {
 	glBindTexture(m_res.i_target, m_res.i_ID);
 }
 
-Texture::TextureResource Texture::load(GLenum target, GLuint width, GLuint height, GLuint depth, GLenum min_filter, GLenum mag_filter, GLenum wrap_s, GLenum wrap_t, GLubyte * textureData) {
+TextureResource Texture::load(GLenum target, GLuint width, GLuint height, GLuint depth, GLenum min_filter, GLenum mag_filter, GLenum wrap_s, GLenum wrap_t, GLubyte * textureData) {
 	GLuint ID;
 
 	glGenTextures(1, &ID);
@@ -39,11 +39,11 @@ Texture::TextureResource Texture::load(GLenum target, GLuint width, GLuint heigh
 	return TextureResource(ID, target, width, height, depth);
 }
 
-Texture::TextureResource Texture::load2D(GLuint width, GLuint height, GLenum min_filter, GLenum mag_filter, GLenum wrap_s, GLenum wrap_t, GLubyte * textureData) {
+TextureResource Texture::load2D(GLuint width, GLuint height, GLenum min_filter, GLenum mag_filter, GLenum wrap_s, GLenum wrap_t, GLubyte * textureData) {
 	return load(GL_TEXTURE_2D, width, height, 0, min_filter, mag_filter, wrap_s, wrap_t, textureData);
 }
 
-Texture::TextureResource Texture::load2D_nicest(GLuint width, GLuint height, GLubyte * textureData) {
+TextureResource Texture::load2D_nicest(GLuint width, GLuint height, GLubyte * textureData) {
 	return load2D(width, height, GL_LINEAR, GL_LINEAR, GL_CLAMP, GL_CLAMP, textureData);
 }
 

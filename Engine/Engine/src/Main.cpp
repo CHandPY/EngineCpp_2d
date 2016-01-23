@@ -109,56 +109,14 @@ int main() {
 		0, 1, 2, 1, 3, 2
 	};
 
-	// gen Mesh 0
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertex_indices), vertex_indices, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(vertex_tex), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(vertex_tex), vertex_tex);
-
-	// gen Mesh 1
-	glGenBuffers(1, &ibo1);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertex_indices1), vertex_indices1, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &vbo1);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1) + /*sizeof(vertex_colors1)*/ sizeof(vertex_tex1), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices1), vertices1);
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_tex1), vertex_tex1);
-	//glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices1), sizeof(vertex_colors1), vertex_colors1);
-
-	 GLfloat vs[] = {
-		-2.0f, -2.0f, 0.0f, 1.0f,
-		2.0f, -2.0f, 0.0f, 1.0f,
-		-2.0f, 2.0f, 0.0f, 1.0f,
-		2.0f, 2.0f, 0.0f, 1.0f,
-	};
-	 GLfloat vt[] = {
-		0, 0,
-		1, 0,
-		0, 1,
-		1, 1
-	};
-	GLuint vi[] = {
-		0, 1, 2, 1, 3, 2
-	};
-
-	Mesh *m = new Mesh(Mesh::load(vertices, sizeof(vertices), vertex_tex, sizeof(vertex_tex), vertex_indices, sizeof(vertex_indices)));
+	Mesh *m0 = new Mesh(Mesh::load(vertices, sizeof(vertices), vertex_tex, sizeof(vertex_tex), vertex_indices, sizeof(vertex_indices))),
+		 *m1 = new Mesh(Mesh::load(vertices1, sizeof(vertices1), vertex_tex1, sizeof(vertex_tex1), vertex_indices1, sizeof(vertex_indices1)));
 
 	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
 	s->use();
 
 	int loc = 0;
-	//loc = glGetUniformLocation(program, "proj");
-	//glUniformMatrix3fv(loc, 1, GL_TRUE, initOrtho(- 2,  2, -2, 2));
 	float ns = 2;
-
-	float i = 0, j = 0, k = 0;
 
 	GLint res;
 	glGetIntegerv(GL_SAMPLES, &res);
@@ -172,7 +130,6 @@ int main() {
 
 		ns = sinf(System::timeSec()) * 2 + 3;
 		scale->initScale(1 / ns, 1 / ns);
-		//*proj *= scale;
 		result = (*proj) * (scale);
 		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
 
@@ -196,37 +153,11 @@ int main() {
 
 		//glUseProgram(program);
 
-		// enable the arrays
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-
 		t1->bind(0);
-
-		// bind VBO and pass vertex attribs for mesh1
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
-		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices)));
-		// render mesh0
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
-
-		//glUseProgram(program);
-
-		m->draw(vbo, ibo); // PLOX COMMT
+		m0->draw();
 
 		t->bind(0);
-
-		// bind VBO and pass vertex attribs for mesh0
-		glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sizeof(vertices1)));
-		// render mesh1
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo1);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+		m1->draw();
 
 		// diable MSAA
 		glDisable(GL_MULTISAMPLE);
@@ -237,9 +168,4 @@ int main() {
 
 	Window::end();
 	return 0;
-}
-
-double hm(int n) {
-	if (n <= 1) return 1;
-	return (1 / n) + hm(n - 1);
 }

@@ -13,10 +13,10 @@ Mesh::Mesh(MeshResource res) : m_res(res) {
 Mesh::~Mesh() {
 }
 
-void Mesh::draw(GLuint vbo, GLuint ibo) {
+void Mesh::draw() {
 
-	//glEnableVertexAttribArray(0);
-	//glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_res.m_vbo);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
@@ -26,8 +26,8 @@ void Mesh::draw(GLuint vbo, GLuint ibo) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_res.m_ibo);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0));
 
-	//glDisableVertexAttribArray(0);
-	//glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 }
 
 MeshResource Mesh::load(const GLfloat *vertices, const GLuint v_length, const GLfloat * texels, const GLuint t_length, const GLushort * indices, const GLuint i_length) {

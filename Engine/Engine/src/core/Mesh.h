@@ -18,7 +18,7 @@ public:
 	Mesh(MeshResource res);
 	~Mesh();
 
-	void draw(GLuint vbo, GLuint ibo);
+	void draw();
 
 	static MeshResource load(const GLfloat *vertices, const GLuint v_length, const GLfloat * texels, const GLuint t_length, const GLushort * indices, const GLuint i_length);
 
