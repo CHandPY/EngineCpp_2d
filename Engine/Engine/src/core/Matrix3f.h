@@ -1,10 +1,11 @@
 #pragma once
 
 #include <cmath>
+
 #include "Vector2f.h"
 #include "ToString.h"
 
-class Matrix3f : ToString {
+class Matrix3f : public ToString {
 
 
 

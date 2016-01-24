@@ -5,24 +5,21 @@
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 
 struct MeshResource {
-	GLuint m_vbo, m_ibo;
-	//GLuint size;
-	int TEMP_MID_SIZE;
-
-	MeshResource(GLuint vbo, GLuint ibo);
+	GLuint m_vbo, m_ibo, m_size;
+	
+	MeshResource(GLuint vbo, GLuint ibo, GLuint size) : m_vbo(vbo), m_ibo(ibo), m_size(size) {};
+	MeshResource() : MeshResource(0, 0, 0) {};
 };
 
 class Mesh {
 
 public:
-	Mesh(MeshResource res);
-	~Mesh();
+	Mesh(MeshResource res) : m_res(res) {};
+	//virtual ~Mesh() = 0;
 
-	void draw();
+	virtual void draw() = 0;
 
-	static MeshResource load(const GLfloat *vertices, const GLuint v_length, const GLfloat * texels, const GLuint t_length, const GLushort * indices, const GLuint i_length);
-
-private:
+protected:
 	MeshResource m_res;
 
 };

@@ -1,11 +1,13 @@
 #pragma once
+
 #include <iostream>
-#include <Math.h>
+#include <cmath>
+
 #include "ToString.h"
 
 using namespace std;
 
-class Vector2f : ToString {
+class Vector2f : public ToString {
 
 public:
 	Vector2f(float x, float y) : m_x(x), m_y(y), m_calcLength(true), m_length(0) {}

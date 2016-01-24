@@ -162,8 +162,8 @@
     <ClCompile Include="src\core\IO.cpp" />
     <ClCompile Include="src\core\lodepng.cpp" />
     <ClCompile Include="src\core\Matrix3f.cpp" />
-    <ClCompile Include="src\core\Mesh.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
+    <ClCompile Include="src\core\StaticMesh.cpp" />
     <ClCompile Include="src\core\Strings.cpp" />
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
@@ -180,11 +180,13 @@
     <ClInclude Include="src\core\Matrix3f.h" />
     <ClInclude Include="src\core\Mesh.h" />
     <ClInclude Include="src\core\Shader.h" />
+    <ClInclude Include="src\core\StaticMesh.h" />
     <ClInclude Include="src\core\Strings.h" />
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\Texture.h" />
     <ClInclude Include="src\core\Timer.h" />
     <ClInclude Include="src\core\ToString.h" />
+    <ClInclude Include="src\core\TSTest.h" />
     <ClInclude Include="src\core\Vector2f.h" />
     <ClInclude Include="src\core\Window.h" />
   </ItemGroup>

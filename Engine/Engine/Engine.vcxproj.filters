@@ -40,6 +40,12 @@
     <Filter Include="Header Files\core\math">
       <UniqueIdentifier>{4ccdd322-a405-4c7f-9bbc-93c6c6c08404}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\render\Mesh">
+      <UniqueIdentifier>{b431a3b3-fc19-4a1b-87d3-c1791d16f7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\render\Mesh">
+      <UniqueIdentifier>{4a8df9ed-3514-49ba-b19e-b38dd12a49f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -78,8 +84,8 @@
     <ClCompile Include="src\core\Matrix3f.cpp">
       <Filter>Source Files\core\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Mesh.cpp">
-      <Filter>Source Files\core\render</Filter>
+    <ClCompile Include="src\core\StaticMesh.cpp">
+      <Filter>Source Files\core\render\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="src\core\Mesh.h">
       <Filter>Header Files\core\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\StaticMesh.h">
+      <Filter>Header Files\core\render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\TSTest.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,13 +21,18 @@
 #include "core/Texture.h"
 #include "core/Matrix3f.h"
 #include "core/Mesh.h"
+#include "core/StaticMesh.h"
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 #define GLSL(version, src) version "\n" #src
 
 using namespace std;
 
+#include "core/TSTest.h"
+
 int main() {
+
+	ToString *ts = new TSTest();
 
 	int ln = 7, index = 7;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
@@ -47,8 +52,6 @@ int main() {
 	cout << glGetString(GL_VERSION) << endl;
 	cout << glGetString(GL_VENDOR) << endl;
 
-	// textures tests
-
 	GLubyte *image0, *image1;
 
 	unsigned width, height;
@@ -58,12 +61,6 @@ int main() {
 	unsigned width1, height1;
 	image1 = IO::loadPNG(width1, height1, "bricks.png");
 	Texture *t1 = new Texture(Texture::load2D_nicest(width1, height1, image1));
-	//t->bind(0);
-
-
-	// VBO + IBO
-	GLuint vbo, vbo1;
-	GLuint ibo, ibo1;
 
 	const GLfloat vertices[] = {
 		-2.0f, -2.0f, 0.0f, 1.0f,
@@ -109,11 +106,28 @@ int main() {
 		0, 1, 2, 1, 3, 2
 	};
 
-	Mesh *m0 = new Mesh(Mesh::load(vertices, sizeof(vertices), vertex_tex, sizeof(vertex_tex), vertex_indices, sizeof(vertex_indices))),
-		 *m1 = new Mesh(Mesh::load(vertices1, sizeof(vertices1), vertex_tex1, sizeof(vertex_tex1), vertex_indices1, sizeof(vertex_indices1)));
+	//Mesh *m0 = new Mesh(Mesh::load(vertices, sizeof(vertices), vertex_tex, sizeof(vertex_tex), vertex_indices, sizeof(vertex_indices))),
+		// *m1 = new Mesh(Mesh::load(vertices1, sizeof(vertices1), vertex_tex1, sizeof(vertex_tex1), vertex_indices1, sizeof(vertex_indices1)));
 
-	Shader* s = Shader::load("test");//Shader::load(getVS().c_str(), getFS().c_str());
-	s->use();
+	Mesh *m0, *m1;
+
+	const StaticMeshVertex verticesz[] {
+		StaticMeshVertex(-1, -1, 0, 0),
+		StaticMeshVertex(-1, 1, 1, 0),
+		StaticMeshVertex(1, -1, 0, 1),
+		StaticMeshVertex(1, 1, 1, 1),
+	};
+
+	const GLfloat verticesf[] {
+		-1, -1, 0, 0,
+		-1, 1, 1, 0,
+		1, -1, 0, 1,
+		1, 1, 1, 1, 
+	};
+
+	m0 = StaticMesh::load(verticesf, sizeof(verticesf), vertex_indices, sizeof(vertex_indices));
+
+	Shader* s = Shader::load("test");
 
 	int loc = 0;
 	float ns = 2;
@@ -138,14 +152,8 @@ int main() {
 		Timer::update();
 		Input::update();
 
-		if (Input::eventStarted(KEY_SPACE)) {
-			//glfwWindowHint(GLFW_SAMPLES, msaa[++index % ln]);
-			cout << msaa[++index % ln] << endl;
-			//Window::window(1920, 1080, "Hello World", WINDOWED, true);
-			//Window::initGL();
-		}
-
 		s->use();
+
 		// enable MSAA
 		glEnable(GL_MULTISAMPLE);
 
@@ -153,11 +161,11 @@ int main() {
 
 		//glUseProgram(program);
 
-		t1->bind(0);
+		t->bind(0);
 		m0->draw();
 
-		t->bind(0);
-		m1->draw();
+		//t->bind(0);
+		//m1->draw();
 
 		// diable MSAA
 		glDisable(GL_MULTISAMPLE);
