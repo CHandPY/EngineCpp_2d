@@ -186,7 +186,6 @@
     <ClInclude Include="src\core\Texture.h" />
     <ClInclude Include="src\core\Timer.h" />
     <ClInclude Include="src\core\ToString.h" />
-    <ClInclude Include="src\core\TSTest.h" />
     <ClInclude Include="src\core\Vector2f.h" />
     <ClInclude Include="src\core\Window.h" />
   </ItemGroup>

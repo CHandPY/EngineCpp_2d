@@ -28,11 +28,7 @@
 
 using namespace std;
 
-#include "core/TSTest.h"
-
 int main() {
-
-	ToString *ts = new TSTest();
 
 	int ln = 7, index = 7;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };

@@ -4,9 +4,6 @@
 *.sln
 *.opendb # is that file even suposed to be there??
 
-# .dll needed to ignore glew32.dll (needed for glew to work)
-glew32.dll
-
 ###################################
 
 ## Ignore Visual Studio temporary files, build results, and
