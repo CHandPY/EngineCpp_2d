@@ -112,7 +112,7 @@ int main() {
 		model = &(tr0->getmodelMatrix());
 		//printf("MODEL %s\n", model->toString().c_str());
 		//printf("PROJ  %s\n", proj->toString().c_str());
-		result = (*model) * (proj);
+		result = (*proj) * (model);
 		//printf("RES   %s\n", result->toString().c_str());
 		tr0->setPos(Vector2f(counter_variable = sinf(System::timeSec()), 0));
 		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
