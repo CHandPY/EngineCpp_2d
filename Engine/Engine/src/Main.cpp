@@ -83,12 +83,13 @@ int main() {
 
 	m1 = StaticMesh::load(verticesz1, sizeof(verticesz1), indices1, sizeof(indices1));
 
-	Transform *tr0 = new Transform(Vector2f(2, 2), 30, Vector2f(0.1, 0.1));
+	Transform *tr0 = new Transform(Vector2f(0, 0), 0 , Vector2f(1, 1));
 
 	Shader* s = Shader::load("test");
 
 	int loc = 0;
 	float ns = 2;
+	float counter_variable = 0;
 
 	GLint res;
 	glGetIntegerv(GL_SAMPLES, &res);
@@ -98,7 +99,10 @@ int main() {
 	glCullFace(GL_BACK);
 
 	Matrix3f *proj = new Matrix3f(), *scale = new Matrix3f(), *result, *model = new Matrix3f();
-	proj->initOrtho(1 * -Window::aspectRatio(), 1 * Window::aspectRatio(), -1, 1);
+	Matrix3f *trans = new Matrix3f();
+	trans->initTranslation(10, 10);
+	//proj->initOrtho(1 * -Window::aspectRatio(), 1 * Window::aspectRatio(), -1, 1);
+	proj->initOrtho(-4, 4, -4, 4);
 
 	srand(0);
 	while (!Window::isCloseRequested()) {
@@ -106,8 +110,14 @@ int main() {
 		ns = sinf(System::timeSec()) * 2 + 3;
 		scale->initScale(1 / ns, 1 / ns);
 		model = &(tr0->getmodelMatrix());
-		result = (*proj) * (model);
+		//printf("MODEL %s\n", model->toString().c_str());
+		//printf("PROJ  %s\n", proj->toString().c_str());
+		result = (*model) * (proj);
+		//printf("RES   %s\n", result->toString().c_str());
+		tr0->setPos(Vector2f(counter_variable = sinf(System::timeSec()), 0));
 		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
+
+		//System::curThreadSleep(1000);
 
 		Timer::update();
 		Input::update();

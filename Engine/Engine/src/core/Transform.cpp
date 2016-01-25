@@ -47,10 +47,10 @@ void Transform::setRotation(float rotation) {
 }
 
 void Transform::computeModelMatrix() {
-	printf(t_position.toString().c_str());
 	Matrix3f mat_p = Matrix3f(), mat_r = Matrix3f(), mat_s = Matrix3f();
 	mat_p.initTranslation(&t_position);
 	mat_s.initScale(&t_scale);
 	mat_r.initRotation(t_rotation);
-	t_modelMatrix.initTransform(&mat_p, &mat_r, &mat_s);
+	t_modelMatrix.initTransform(&mat_s, &mat_r, &mat_p);
+	printf("%s\n", t_modelMatrix.toString().c_str());
 }

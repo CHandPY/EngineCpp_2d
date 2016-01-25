@@ -9,7 +9,7 @@ out vec2 tex_coord;
 
 void main() {
 	//normalize(color.xzy * color.zyx);
-	gl_Position = vec4(proj * vec3(vPosition, 0), 1);
+	gl_Position = vec4(proj * vec3(vPosition, 1), 1);
 	//col = vec3(tex, 1);// mix(color, vec3(1, 1, 1), vec3(.08, .12, .0));//sin(pow(mix(vec3(1, 1, 1), color, vec3(.5, .5, .5)), vec3(vPosition, 1)));
 	tex_coord = tex;
 }
