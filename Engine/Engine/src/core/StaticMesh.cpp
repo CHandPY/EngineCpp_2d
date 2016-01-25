@@ -25,7 +25,7 @@ void StaticMesh::draw() {
 	glDisableVertexAttribArray(1);
 }
 
-StaticMesh * StaticMesh::load(const GLfloat *vertices, const GLuint v_length, const GLushort * indices, const GLuint i_length) {
+StaticMesh * StaticMesh::load(const StaticMeshVertex *vertices, const GLuint v_length, const GLushort * indices, const GLuint i_length) {
 	GLuint vbo, ibo;
 
 	glGenBuffers(1, &ibo);

@@ -15,9 +15,11 @@ public:
 
 	~Matrix3f();
 	Matrix3f* initIdentity();
+	Matrix3f* initTranslation(Vector2f *trans);
 	Matrix3f* initTranslation(float x, float y);
 	Matrix3f* initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate);
 	Matrix3f* initRotation(float rot);
+	Matrix3f* initScale(Vector2f *scale);
 	Matrix3f* initScale(float x, float y);
 	Matrix3f* initOrtho(float left, float right, float bottom, float top);
 

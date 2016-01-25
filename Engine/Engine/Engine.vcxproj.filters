@@ -40,11 +40,17 @@
     <Filter Include="Header Files\core\math">
       <UniqueIdentifier>{4ccdd322-a405-4c7f-9bbc-93c6c6c08404}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\render\Mesh">
+    <Filter Include="Header Files\core\world">
+      <UniqueIdentifier>{1828fccb-605b-4b80-a3dc-e371b1aa4732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\render\mesh">
       <UniqueIdentifier>{b431a3b3-fc19-4a1b-87d3-c1791d16f7e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\core\render\Mesh">
+    <Filter Include="Source Files\core\render\mesh">
       <UniqueIdentifier>{4a8df9ed-3514-49ba-b19e-b38dd12a49f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\world">
+      <UniqueIdentifier>{1340cab9-495f-4ec2-8daa-ead14e5a6541}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +91,10 @@
       <Filter>Source Files\core\math</Filter>
     </ClCompile>
     <ClCompile Include="src\core\StaticMesh.cpp">
-      <Filter>Source Files\core\render\Mesh</Filter>
+      <Filter>Source Files\core\render\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Transform.cpp">
+      <Filter>Source Files\core\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +141,13 @@
       <Filter>Header Files\core\render</Filter>
     </ClInclude>
     <ClInclude Include="src\core\StaticMesh.h">
-      <Filter>Header Files\core\render\Mesh</Filter>
+      <Filter>Header Files\core\render\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Transform.h">
+      <Filter>Header Files\core\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Main.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

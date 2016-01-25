@@ -21,6 +21,6 @@ public:
 
 	void draw();
 
-	static StaticMesh * load(const GLfloat *vertices, const GLuint v_length, const GLushort * indices, const GLuint i_length);
+	static StaticMesh * load(const StaticMeshVertex *vertices, const GLuint v_length, const GLushort * indices, const GLuint i_length);
 
 };

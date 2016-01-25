@@ -168,6 +168,7 @@
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
     <ClCompile Include="src\core\Timer.cpp" />
+    <ClCompile Include="src\core\Transform.cpp" />
     <ClCompile Include="src\core\Vector2f.cpp" />
     <ClCompile Include="src\core\Window.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -186,8 +187,10 @@
     <ClInclude Include="src\core\Texture.h" />
     <ClInclude Include="src\core\Timer.h" />
     <ClInclude Include="src\core\ToString.h" />
+    <ClInclude Include="src\core\Transform.h" />
     <ClInclude Include="src\core\Vector2f.h" />
     <ClInclude Include="src\core\Window.h" />
+    <ClInclude Include="src\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\test.frag" />

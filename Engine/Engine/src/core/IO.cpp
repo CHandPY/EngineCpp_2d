@@ -25,7 +25,11 @@ string* IO::load(const char *filepath, int *length) {
 unsigned char * IO::loadPNG(unsigned& width, unsigned& height, char * filepath) {
 	std::vector<unsigned char> image;
 	unsigned error = lodepng::decode(image, width, height, filepath);
-	cout << error << endl;
+	
+	if (error) {
+		cout << lodepng_error_text(error) << endl;
+		return nullptr;
+	}
 
 	unsigned char *imageFix = new unsigned char[image.size()];
 	int mod = sizeof(unsigned char);

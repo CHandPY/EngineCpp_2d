@@ -28,6 +28,10 @@ Matrix3f* Matrix3f::initIdentity() {
 	return this;
 }
 
+Matrix3f * Matrix3f::initTranslation(Vector2f *trans) {
+	return initTranslation(*(*trans)[0], *(*trans)[1]);
+}
+
 Matrix3f* Matrix3f::initScale(float x, float y) {
 	m_mat[0] = x;
 	m_mat[1] = 0;
@@ -40,6 +44,10 @@ Matrix3f* Matrix3f::initScale(float x, float y) {
 	m_mat[8] = 1;
 
 	return this;
+}
+
+Matrix3f * Matrix3f::initScale(Vector2f *scale) {
+	return initScale(*(*scale)[0], *(*scale)[1]);
 }
 
 Matrix3f* Matrix3f::initRotation(float rot) {
@@ -68,12 +76,7 @@ Matrix3f* Matrix3f::initTranslation(float x, float y) {
 	return this;
 }
 
-
 /*
- *
- *
- *
- *
  */
 Matrix3f* Matrix3f::initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate) {
 	initIdentity();
@@ -192,5 +195,5 @@ Matrix3f* Matrix3f::operator*(Matrix3f* m) {
 }
 
 Matrix3f::~Matrix3f() {
-	delete[] m_mat;
+	//delete[] m_mat;
 }
