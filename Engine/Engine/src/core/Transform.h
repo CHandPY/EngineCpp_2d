@@ -20,7 +20,8 @@ public:
 	Vector2f getScale();
 	float getRotation();
 
-	Matrix3f getmodelMatrix();
+	Matrix3f getModelMatrix();
+	bool hasChanged();
 
 	void setPos(Vector2f pos);
 	void setScale(Vector2f scale);

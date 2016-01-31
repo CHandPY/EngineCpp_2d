@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\IO.cpp" />
     <ClCompile Include="src\core\lodepng.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\HashMap.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\IO.h" />

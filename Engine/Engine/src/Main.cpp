@@ -21,15 +21,15 @@
 #include "core/Mesh.h"
 #include "core/StaticMesh.h"
 #include "core/Transform.h"
+#include "core/Camera.h"
 
 #define BUFFER_OFFSET(offset) ((void *)(offset))
-#define GLSL(version, src) version "\n" #src
 
 using namespace std;
 
 int main() {
 
-	int ln = 7, index = 7;
+	int ln = 7, index = 0;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
 
 	Window::init();
@@ -47,15 +47,32 @@ int main() {
 	cout << glGetString(GL_VERSION) << endl;
 	cout << glGetString(GL_VENDOR) << endl;
 
-	GLubyte *image0, *image1;
+	GLubyte *image0, *image1, *image2, *image3, *imagel;
 
 	unsigned width, height;
-	image0 = IO::loadPNG(width, height, "res/textures/test.png");
-	Texture *t = new Texture(Texture::load2D_nicest(width, height, image0));
+	image0 = IO::loadPNG(width, height, "res/textures/grass.png");
+	Texture *t0 = new Texture(Texture::load2D_nicest(width, height, image0));
+	cout << "loaded texture: tex0" << endl;
 
 	unsigned width1, height1;
-	image1 = IO::loadPNG(width1, height1, "res/textures/bricks.png");
+	image1 = IO::loadPNG(width1, height1, "res/textures/gravel.png");
 	Texture *t1 = new Texture(Texture::load2D_nicest(width1, height1, image1));
+	cout << "loaded texture: tex1" << endl;
+
+	unsigned width2, height2;
+	//image2 = IO::loadPNG(width2, height2, "res/textures/grass.png");
+	//Texture *t2 = new Texture(Texture::load2D_nicest(width2, height2, image2));
+	//cout << "loaded texture: tex2" << endl;
+
+	unsigned width3, height3;
+	//image3 = IO::loadPNG(width3, height3, "res/textures/dirt.png");
+	//Texture *t3 = new Texture(Texture::load2D_nicest(width3, height3, image3));
+	//cout << "loaded texture: tex3" << endl;
+
+	unsigned widthl, heightl;
+	imagel = IO::loadPNG(widthl, heightl, "res/textures/lookup3.png");
+	Texture *tl = new Texture(Texture::load2D_nicest(widthl, heightl, imagel));
+	cout << "loaded texture: lookup" << endl;
 
 	Mesh *m0, *m1;
 
@@ -83,12 +100,12 @@ int main() {
 
 	m1 = StaticMesh::load(verticesz1, sizeof(verticesz1), indices1, sizeof(indices1));
 
-	Transform *tr0 = new Transform(Vector2f(0, 0), 0 , Vector2f(1, 1));
+	Transform *tr0 = new Transform(Vector2f(0, 0), 0 , Vector2f(.5, .5));
 
 	Shader* s = Shader::load("test");
 
 	int loc = 0;
-	float ns = 2;
+	float ns = .4f;
 	float counter_variable = 0;
 
 	GLint res;
@@ -99,22 +116,35 @@ int main() {
 	glCullFace(GL_BACK);
 
 	Matrix3f *proj = new Matrix3f(), *scale = new Matrix3f(), *result, *model = new Matrix3f();
-	Matrix3f *trans = new Matrix3f();
-	trans->initTranslation(10, 10);
-	//proj->initOrtho(1 * -Window::aspectRatio(), 1 * Window::aspectRatio(), -1, 1);
-	proj->initOrtho(-4, 4, -4, 4);
+	proj->initOrtho(1 * -Window::aspectRatio(), 1 * Window::aspectRatio(), -1, 1);
+	//proj->initOrtho(-4, 4, -4, 4);
+
+	Camera *cam = new Camera(Transform(), *proj);
+
+	float x = 0, y = 0;
+	const float speed = 6;
 
 	srand(0);
 	while (!Window::isCloseRequested()) {
 
-		ns = sinf(System::timeSec()) * 2 + 3;
-		scale->initScale(1 / ns, 1 / ns);
-		model = &(tr0->getmodelMatrix());
-		//printf("MODEL %s\n", model->toString().c_str());
-		//printf("PROJ  %s\n", proj->toString().c_str());
-		result = (*proj) * (model);
-		//printf("RES   %s\n", result->toString().c_str());
-		tr0->setPos(Vector2f(counter_variable = sinf(System::timeSec()), 0));
+		if (Input::eventStarted(MOUSE_WHEEL_UP))
+			ns *= 1.05;
+		if (Input::eventStarted(MOUSE_WHEEL_DOWN))
+			ns /= 1.05;
+		if (Input::event(KEY_W))
+			y += speed * Timer::getDelta();
+		if (Input::event(KEY_S))
+			y -= speed * Timer::getDelta();
+		if (Input::event(KEY_D))
+			x += speed * Timer::getDelta();
+		if (Input::event(KEY_A))
+			x -= speed * Timer::getDelta();
+		//cam->transform()->setPos(Vector2f(x, y));
+		scale->initScale(ns, ns);
+		Matrix3f *proj1  = *proj * scale;
+		model = &(tr0->getModelMatrix());
+		cam->getViewProjectionMatrix();
+		result = *proj1 * model;//cam->getViewProjectionMatrix() * (model);
 		glUniformMatrix3fv(loc, 1, GL_TRUE, result->getArray());
 
 		//System::curThreadSleep(1000);
@@ -129,11 +159,20 @@ int main() {
 		// enable MSAA
 		glEnable(GL_MULTISAMPLE);
 
-		t1->bind(0);
-		m0->draw();
+		//t1->bind(0);
+		//m0->draw();
 
-		t->bind(0);
-		m1->draw();
+		t0->bind(0);
+		t1->bind(1);
+		//t2->bind(2);
+		//t3->bind(3);
+		tl->bind(4);
+		glUniform1i(5, 0);
+		glUniform1i(6, 1);
+		//glUniform1i(7, 2);
+		//glUniform1i(8, 3);
+		glUniform1i(9, 4);
+		m0->draw();
 
 		// diable MSAA
 		glDisable(GL_MULTISAMPLE);

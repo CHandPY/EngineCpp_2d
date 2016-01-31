@@ -52,6 +52,12 @@
     <Filter Include="Source Files\core\world">
       <UniqueIdentifier>{1340cab9-495f-4ec2-8daa-ead14e5a6541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\render\camera">
+      <UniqueIdentifier>{2bf34300-fe4f-4a90-9e9b-ccf6d7f0c24c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\render\camera">
+      <UniqueIdentifier>{76ece0f1-6b56-4a37-9274-d758190f965d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="src\core\Transform.cpp">
       <Filter>Source Files\core\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Camera.cpp">
+      <Filter>Source Files\core\render\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\Main.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Camera.h">
+      <Filter>Header Files\core\render\camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

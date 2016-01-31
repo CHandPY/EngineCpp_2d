@@ -9,6 +9,7 @@ string Matrix3f::toString() {
 
 Matrix3f::Matrix3f() {
 	m_mat = new float[9]();
+	cout << "new matrix " << this << "and haz mat " << m_mat << endl;
 }
 
 float* Matrix3f::operator[] (int i) {
@@ -79,7 +80,10 @@ Matrix3f* Matrix3f::initTranslation(float x, float y) {
 /*
  */
 Matrix3f* Matrix3f::initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate) {
+	cout << "I AM THE ONE WHO ENTERS " << this << endl;
+	cout << "MY MAT IZ " << m_mat << endl;
 	initIdentity();
+	cout << "CAN I HAS IDENTITY ?" << endl;
 	*this *= translate;
 	*this *= scale;
 	*this *= rotation;

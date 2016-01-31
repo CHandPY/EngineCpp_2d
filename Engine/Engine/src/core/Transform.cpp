@@ -5,8 +5,7 @@ Transform::Transform(Vector2f pos, float rot, Vector2f scale) : t_position(pos),
 	t_hasCanged = true;
 }
 
-Transform::Transform(Vector2f pos, Vector2f scale) : Transform(pos, 0, scale) {
-}
+Transform::Transform(Vector2f pos, Vector2f scale) : Transform(pos, 0, scale) {}
 
 Transform::~Transform() {
 }
@@ -23,12 +22,18 @@ float Transform::getRotation() {
 	return t_rotation;
 }
 
-Matrix3f Transform::getmodelMatrix() {
+Matrix3f Transform::getModelMatrix() {
 	if (t_hasCanged) {
+		cout << "I WAS HERE " << this << endl;
 		computeModelMatrix();
+		cout << t_modelMatrix.toString() << endl;
 		t_hasCanged = false;
 	}
 	return t_modelMatrix;
+}
+
+bool Transform::hasChanged() {
+	return t_hasCanged;
 }
 
 void Transform::setPos(Vector2f pos) {
@@ -47,10 +52,10 @@ void Transform::setRotation(float rotation) {
 }
 
 void Transform::computeModelMatrix() {
+	cout << "IS DIS NULL " << &t_modelMatrix << endl;
 	Matrix3f mat_p = Matrix3f(), mat_r = Matrix3f(), mat_s = Matrix3f();
 	mat_p.initTranslation(&t_position);
 	mat_s.initScale(&t_scale);
 	mat_r.initRotation(t_rotation);
 	t_modelMatrix.initTransform(&mat_s, &mat_r, &mat_p);
-	printf("%s\n", t_modelMatrix.toString().c_str());
 }
