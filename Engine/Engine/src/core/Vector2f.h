@@ -17,7 +17,6 @@ public:
 
 	~Vector2f() {}
 
-
 	/* setters */
 	Vector2f* setX(float x);
 	Vector2f* setY(float y);
@@ -30,6 +29,13 @@ public:
 	float length();
 	float lengthSq();
 	Vector2f* getNormalized(void);
+
+	/*
+	Has a virtual contract with the user that states that this method
+	can only be called once per frame and subsequent calling in the same 
+	frame will not return a correct value. 
+	*/
+	bool hasChanged();
 
 	/* basic math operators */
 	Vector2f* operator+  (Vector2f*);
@@ -61,6 +67,9 @@ public:
 	bool operator>=     (Vector2f*);
 	bool operator<=     (Vector2f*);
 
+	/* negates this vector and applies to self */
+	Vector2f * negate();
+
 	/* dot and cross */
 
 	float cross(Vector2f*, Vector2f*);
@@ -71,6 +80,6 @@ public:
 
 private:
 	float m_x, m_y, m_length;
-	bool m_calcLength;
+	bool m_calcLength, m_hasChanged;
 
 };

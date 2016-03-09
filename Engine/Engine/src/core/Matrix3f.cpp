@@ -1,15 +1,11 @@
 #include "Matrix3f.h"
 
-
-
 string Matrix3f::toString() {
 	return "\t[" + str(m_mat[0]) + ", " + str(m_mat[1]) + ", " + str(m_mat[2]) + "]\n" + "M =\t[" + str(m_mat[3]) + ", " + str(m_mat[4]) + ", " + str(m_mat[5])+ "]\n" + "\t[" + str(m_mat[6]) + ", " + str(m_mat[7]) + ", " + str(m_mat[8]) + "]\n";
 }
 
-
 Matrix3f::Matrix3f() {
 	m_mat = new float[9]();
-	cout << "new matrix " << this << "and haz mat " << m_mat << endl;
 }
 
 float* Matrix3f::operator[] (int i) {
@@ -80,13 +76,10 @@ Matrix3f* Matrix3f::initTranslation(float x, float y) {
 /*
  */
 Matrix3f* Matrix3f::initTransform(Matrix3f* scale, Matrix3f* rotation, Matrix3f* translate) {
-	cout << "I AM THE ONE WHO ENTERS " << this << endl;
-	cout << "MY MAT IZ " << m_mat << endl;
 	initIdentity();
-	cout << "CAN I HAS IDENTITY ?" << endl;
-	*this *= translate;
-	*this *= scale;
-	*this *= rotation;
+	this->operator*=(translate);
+	this->operator*=(scale);
+	this->operator*=(rotation);
 	return this;
 }
 
@@ -199,5 +192,5 @@ Matrix3f* Matrix3f::operator*(Matrix3f* m) {
 }
 
 Matrix3f::~Matrix3f() {
-	//delete[] m_mat;
+	delete[] m_mat;
 }

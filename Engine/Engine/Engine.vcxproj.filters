@@ -155,9 +155,6 @@
     <ClInclude Include="src\core\Transform.h">
       <Filter>Header Files\core\world</Filter>
     </ClInclude>
-    <ClInclude Include="src\Main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\Camera.h">
       <Filter>Header Files\core\render\camera</Filter>
     </ClInclude>

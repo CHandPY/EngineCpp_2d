@@ -192,7 +192,6 @@
     <ClInclude Include="src\core\Transform.h" />
     <ClInclude Include="src\core\Vector2f.h" />
     <ClInclude Include="src\core\Window.h" />
-    <ClInclude Include="src\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\test.frag" />

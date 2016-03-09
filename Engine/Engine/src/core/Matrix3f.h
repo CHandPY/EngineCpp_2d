@@ -7,9 +7,6 @@
 
 class Matrix3f : public ToString {
 
-
-
-
 public:
 	Matrix3f();
 
@@ -35,7 +32,7 @@ public:
 
 	Vector2f* operator*(Vector2f*);
 
-	float *getArray() {
+	float * getArray() {
 		return m_mat;
 	}
 

@@ -12,7 +12,7 @@ layout (location = 9) uniform sampler2D look;
 void main() {
 	vec4 finalColor;
 	vec4 lookup = texture(look, tex_coord);
-	finalColor = mix(texture(tex1, tex_coord), texture(tex0, tex_coord), lookup.b);
+	finalColor = texture(tex0, tex_coord);//vec4(0, 1, 1, 1);//mix(texture(tex1, tex_coord), texture(tex0, tex_coord), lookup.b);
 	/*
 	vec4 mx01 = mix(texture(tex0, tex_coord), texture(tex1, tex_coord), lookup.r); 
 	vec4 mx_01_2 = mix(mx01, texture(tex2, tex_coord), lookup.g); 
