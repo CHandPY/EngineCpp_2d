@@ -6,35 +6,33 @@
 namespace engine {
 	namespace core {
 		namespace strings {
-
-			using namespace std;
 			
-			string str(char val);
-			string str(short val);
-			string str(int val);
-			string str(long val);
-			string str(long long val);
-			string str(unsigned char val);
-			string str(unsigned short val);
-			string str(unsigned int val);
-			string str(unsigned long val);
-			string str(unsigned long long val);
-			string str(float val);
-			string str(double val);
-			string str(bool val);
+			std::string str(char val);
+			std::string str(short val);
+			std::string str(int val);
+			std::string str(long val);
+			std::string str(long long val);
+			std::string str(unsigned char val);
+			std::string str(unsigned short val);
+			std::string str(unsigned int val);
+			std::string str(unsigned long val);
+			std::string str(unsigned long long val);
+			std::string str(float val);
+			std::string str(double val);
+			std::string str(bool val);
 
-			string strhx(char val);
-			string strhx(short val);
-			string strhx(int val);
-			string strhx(long long val);
-			string strhx(unsigned short val);
-			string strhx(unsigned int val);
-			string strhx(unsigned long long val);
+			std::string strhx(char val);
+			std::string strhx(short val);
+			std::string strhx(int val);
+			std::string strhx(long long val);
+			std::string strhx(unsigned short val);
+			std::string strhx(unsigned int val);
+			std::string strhx(unsigned long long val);
 
-			const string nextline = "\n";
+			const std::string nextline = "\n";
 
 			namespace internal {
-				inline string strhx_internal(unsigned long long val, const int explicit_size);
+				inline std::string strhx_internal(unsigned long long val, const int explicit_size);
 			}
 
 		}

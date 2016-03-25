@@ -3,8 +3,10 @@
 namespace engine {
 	namespace core {
 
-		string Matrix3f::toString() {
-			return "\t[" + str(m_mat[0]) + ", " + str(m_mat[1]) + ", " + str(m_mat[2]) + "]\n" + "M =\t[" + str(m_mat[3]) + ", " + str(m_mat[4]) + ", " + str(m_mat[5]) + "]\n" + "\t[" + str(m_mat[6]) + ", " + str(m_mat[7]) + ", " + str(m_mat[8]) + "]\n";
+		std::string core::Matrix3f::toString() {
+			return "\t[" + strings::str(m_mat[0]) + ", " + strings::str(m_mat[1]) + ", " + strings::str(m_mat[2]) + "]\n"
+				+ "M =\t[" + strings::str(m_mat[3]) + ", " + strings::str(m_mat[4]) + ", " + strings::str(m_mat[5]) + "]\n"
+				+ "\t[" + strings::str(m_mat[6]) + ", " + strings::str(m_mat[7]) + ", " + strings::str(m_mat[8]) + "]\n";
 		}
 
 		Matrix3f::Matrix3f() {

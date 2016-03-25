@@ -8,9 +8,9 @@ namespace engine {
 	namespace graphics {
 
 		struct Ortho {
-			Matrix3f *c_projectionMatrix;
+			core::Matrix3f *c_projectionMatrix;
 
-			Ortho(Matrix3f *proj);
+			Ortho(core::Matrix3f *proj);
 
 			static Ortho *square_pix(float pixel_per_tile, int width, int height);
 			static Ortho *square_num(float tiles_per_height, float aspectratio);
@@ -21,16 +21,16 @@ namespace engine {
 		class Camera {
 
 		public:
-			Camera(Transform *transform, Ortho *ortho);
+			Camera(core::Transform *transform, Ortho *ortho);
 			~Camera();
 
-			Transform * transform();
-			Matrix3f * getViewProjectionMatrix();
+			core::Transform * transform();
+			core::Matrix3f * getViewProjectionMatrix();
 
 		private:
-			Transform *c_transform;
+			core::Transform *c_transform;
 			Ortho *c_ortho;
-			Matrix3f *c_viewProjMat;
+			core::Matrix3f *c_viewProjMat;
 
 			void computeViewProjectionMatrix();
 

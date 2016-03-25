@@ -18,14 +18,14 @@ namespace engine {
 
 		Shader * Shader::load(const char * name) {
 			int vsl;
-			string* vsa = IO::load(SHADER_PATH(name, SHADER_VERTEX), &vsl);
-			string vs = "";
+			std::string* vsa = core::IO::load(SHADER_PATH(name, SHADER_VERTEX), &vsl);
+			std::string vs = "";
 			for (int i = 0; i < vsl; i++)
 				vs += vsa[i];
 			int fsl;
 			//string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + "." + SHADER_FRAGMENT).c_str(), &fsl);
-			string* fsa = IO::load(SHADER_PATH(name, SHADER_FRAGMENT), &fsl);
-			string fs = "";
+			std::string* fsa = core::IO::load(SHADER_PATH(name, SHADER_FRAGMENT), &fsl);
+			std::string fs = "";
 			for (int i = 0; i < fsl; i++)
 				fs += fsa[i];
 			return load(vs.c_str(), fs.c_str());

@@ -13,7 +13,7 @@ namespace engine {
 			const float v_posx, v_posy, v_texelu, v_texelv;
 
 			StaticMeshVertex(float p_x, float p_y, float t_u, float t_v);
-			StaticMeshVertex(Vector2f pos, Vector2f texel);
+			StaticMeshVertex(core::Vector2f pos, core::Vector2f texel);
 		};
 
 		class StaticMesh : public Mesh {

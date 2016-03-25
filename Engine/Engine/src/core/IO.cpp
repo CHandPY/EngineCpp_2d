@@ -3,19 +3,19 @@
 namespace engine {
 	namespace core {
 
-		string* IO::load(const char *filepath, int *length) {
-			FILE *fp = fopen(filepath, "r");
+		std::string* IO::load(const char *filepath, int *length) {
+			FILE *fp = std::fopen(filepath, "r");
 
 			if (!fp) {
-				cerr << "Failled to oppen file: " << filepath << endl;
+				std::cerr << "Failled to oppen file: " << filepath << std::endl;
 				return 0;
 			}
 
-			vector<string> *lines = new vector<string>();
+			std::vector<std::string> *lines = new std::vector<std::string>();
 
 			char line[CHAR_AMT];
 			while (fgets(line, 1023, fp)) {
-				lines->push_back(string(line));
+				lines->push_back(std::string(line));
 			}
 
 			fclose(fp);
@@ -30,7 +30,7 @@ namespace engine {
 			unsigned error = lodepng::decode(image, width, height, filepath);
 
 			if (error) {
-				cout << lodepng_error_text(error) << endl;
+				std::cout << lodepng_error_text(error) << std::endl;
 				return nullptr;
 			}
 

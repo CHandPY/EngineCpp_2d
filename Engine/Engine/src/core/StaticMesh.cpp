@@ -5,8 +5,6 @@
 namespace engine {
 	namespace graphics {
 
-		using namespace core;
-
 		StaticMesh::StaticMesh(MeshResource res) : Mesh(res) {
 		}
 
@@ -50,7 +48,7 @@ namespace engine {
 		StaticMeshVertex::StaticMeshVertex(float p_x, float p_y, float t_u, float t_v) : v_posx(p_x), v_posy(p_y), v_texelu(t_u), v_texelv(t_v) {
 		}
 
-		StaticMeshVertex::StaticMeshVertex(Vector2f pos, Vector2f texel) : StaticMeshVertex(pos.getX(), pos.getY(), texel.getX(), texel.getY()) {
+		StaticMeshVertex::StaticMeshVertex(core::Vector2f pos, core::Vector2f texel) : StaticMeshVertex(pos.getX(), pos.getY(), texel.getX(), texel.getY()) {
 		}
 
 	}

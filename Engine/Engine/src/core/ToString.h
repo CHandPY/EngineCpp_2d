@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Strings.h"
+
 namespace engine {
 	namespace core {
 

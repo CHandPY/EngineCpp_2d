@@ -8,8 +8,6 @@
 
 #include "IO.h"
 
-using namespace std;
-
 #define SHADER_DIR_LOC			"res/shaders/"
 #define SHADER_VERTEX			"vert"
 #define SHADER_FRAGMENT			"frag"
@@ -18,7 +16,7 @@ using namespace std;
 #define SHADER_TESS_EVAL		"tese"
 #define SHADER_COMPUTE			"comp"
 
-#define SHADER_PATH(name, type) string(SHADER_DIR_LOC + string(name) + "." + type).c_str()
+#define SHADER_PATH(name, type) std::string(SHADER_DIR_LOC + std::string(name) + "." + type).c_str()
 
 namespace engine {
 	namespace graphics {
