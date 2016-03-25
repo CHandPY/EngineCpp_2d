@@ -26,7 +26,11 @@
 #define BUFFER_OFFSET(offset) ((void *)(offset))
 
 using namespace std;
+using namespace engine;
+using namespace engine::core;
+using namespace engine::graphics;
 
+#include <Windows.h>
 int main() {
 
 	int ln = 7, index = 0;
@@ -60,10 +64,14 @@ int main() {
 	proj->initOrtho(2 * -Window::aspectRatio(), 2 * Window::aspectRatio(), -2, 2);
 	trm->initTranslation(1, 1);
 
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0x0A);
+
 	unsigned width, height;
 	GLubyte *image0 = IO::loadPNG(width, height, "res/textures/bricks.png");
 	Texture *t0 = new Texture(Texture::load2D_nicest(width, height, image0));
 	cout << "loaded texture: tex0" << endl;
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0x07);
 
 	Matrix3f mat1 = Matrix3f();
 	mat1.initTranslation(0, 0);

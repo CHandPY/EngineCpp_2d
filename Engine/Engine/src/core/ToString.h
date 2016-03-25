@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Strings.h"
+namespace engine {
+	namespace core {
 
-using namespace std;
-using namespace strings;
+		class ToString {
 
-class ToString {
+		public:
+			virtual std::string toString() = 0;
 
-public:
-	virtual string toString() = 0;
-
-};
+		};
+	}
+}

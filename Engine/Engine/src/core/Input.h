@@ -155,32 +155,37 @@
 #define PRESS                  1
 #define REPEAT                 2
 
-class Input {
+namespace engine {
+	namespace core {
 
-public:
-	static int event(int id);
-	static int eventStarted(int id);
-	static int eventStopped(int id);
-	static int getMX();
-	static int getMY();
-	static int getMDX();
-	static int getMDY();
-	static void update();
-	static void mouseGrab(bool grab);
+		class Input {
 
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void mouse_callback(GLFWwindow* window, int button, int action, int mods);
-	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-	static void m_pos_callback(GLFWwindow* window, double xpos, double ypos);
+		public:
+			static int event(int id);
+			static int eventStarted(int id);
+			static int eventStopped(int id);
+			static int getMX();
+			static int getMY();
+			static int getMDX();
+			static int getMDY();
+			static void update();
+			static void mouseGrab(bool grab);
 
-	static bool mouseGrabed();
+			static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+			static void mouse_callback(GLFWwindow* window, int button, int action, int mods);
+			static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+			static void m_pos_callback(GLFWwindow* window, double xpos, double ypos);
 
-private:
-	static int events[LAST_EVENT_BOUND];
-	static int events_started[LAST_EVENT_BOUND];
-	static int events_stopped[LAST_EVENT_BOUND];
-	static int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its worth it.
-	static int MX, MY, DX, DY;
-	static bool m_grab;
+			static bool mouseGrabed();
 
-};
+		private:
+			static int events[LAST_EVENT_BOUND];
+			static int events_started[LAST_EVENT_BOUND];
+			static int events_stopped[LAST_EVENT_BOUND];
+			static int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its worth it.
+			static int MX, MY, DX, DY;
+			static bool m_grab;
+
+		};
+	}
+}

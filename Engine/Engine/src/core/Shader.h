@@ -20,18 +20,24 @@ using namespace std;
 
 #define SHADER_PATH(name, type) string(SHADER_DIR_LOC + string(name) + "." + type).c_str()
 
-class Shader {
+namespace engine {
+	namespace graphics {
 
-public:
-	Shader(GLuint program);
-	~Shader();
+		class Shader {
 
-	void use();
+		public:
+			Shader(GLuint program);
+			~Shader();
 
-	static Shader* load(const char* name);
-	static Shader* load(const char* vs_text, const char* fs_text);
+			void use();
 
-private:
-	GLuint  m_program;
+			static Shader* load(const char* name);
+			static Shader* load(const char* vs_text, const char* fs_text);
 
-};
+		private:
+			GLuint  m_program;
+
+		};
+
+	}
+}

@@ -19,13 +19,18 @@ using namespace std;
 typedef long sys_time;
 typedef float sys_secs;
 
-class System {
+namespace engine {
+	namespace core {
 
-public:
-	static void exit(int code);
-	static void curThreadSleep(long milis);
+		class System {
 
-	static sys_time time();
-	static sys_secs timeSec();
+		public:
+			static void exit(int code);
+			static void curThreadSleep(long milis);
 
-};
+			static sys_time time();
+			static sys_secs timeSec();
+
+		};
+	}
+}

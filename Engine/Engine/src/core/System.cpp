@@ -1,17 +1,22 @@
 #include "System.h"
 
-void System::exit(int code) {
-	std::exit(code);
-}
+namespace engine {
+	namespace core {
 
-void System::curThreadSleep(long milis) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(milis));
-}
+		void System::exit(int code) {
+			std::exit(code);
+		}
 
-long System::time() {
-	return glfwGetTime() * TIME_RESOLUTION;
-}
+		void System::curThreadSleep(long milis) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(milis));
+		}
 
-sys_secs System::timeSec() {
-	return glfwGetTime();
+		long System::time() {
+			return glfwGetTime() * TIME_RESOLUTION;
+		}
+
+		sys_secs System::timeSec() {
+			return glfwGetTime();
+		}
+	}
 }

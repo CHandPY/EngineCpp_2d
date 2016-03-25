@@ -1,63 +1,68 @@
 #include "Shader.h"
 
-Shader::Shader(GLuint program) {
-	m_program = program;
-}
+namespace engine {
+	namespace graphics {
 
-/* CHANGE LATER TO NO DELET ON ~ */
-Shader::~Shader() {
-	glDeleteProgram(m_program);
-}
+		Shader::Shader(GLuint program) {
+			m_program = program;
+		}
 
-void Shader::use() {
-	glUseProgram(m_program);
-}
+		/* CHANGE LATER TO NO DELET ON ~ */
+		Shader::~Shader() {
+			glDeleteProgram(m_program);
+		}
 
-Shader * Shader::load(const char * name) {
-	int vsl;
-	string* vsa = IO::load(SHADER_PATH(name, SHADER_VERTEX), &vsl);
-	string vs = "";
-	for (int i = 0; i < vsl; i++)
-		vs += vsa[i];
-	int fsl;
-	//string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + "." + SHADER_FRAGMENT).c_str(), &fsl);
-	string* fsa = IO::load(SHADER_PATH(name, SHADER_FRAGMENT), &fsl);
-	string fs = "";
-	for (int i = 0; i < fsl; i++)
-		fs += fsa[i];
-	return load(vs.c_str(), fs.c_str());
-}
+		void Shader::use() {
+			glUseProgram(m_program);
+		}
 
-Shader * Shader::load(const char * vs_text, const char * fs_text) {
+		Shader * Shader::load(const char * name) {
+			int vsl;
+			string* vsa = IO::load(SHADER_PATH(name, SHADER_VERTEX), &vsl);
+			string vs = "";
+			for (int i = 0; i < vsl; i++)
+				vs += vsa[i];
+			int fsl;
+			//string* fsa = IO::load(string(SHADER_DIR_LOC + string(name) + "." + SHADER_FRAGMENT).c_str(), &fsl);
+			string* fsa = IO::load(SHADER_PATH(name, SHADER_FRAGMENT), &fsl);
+			string fs = "";
+			for (int i = 0; i < fsl; i++)
+				fs += fsa[i];
+			return load(vs.c_str(), fs.c_str());
+		}
 
-	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+		Shader * Shader::load(const char * vs_text, const char * fs_text) {
 
-	glShaderSource(vertShader, 1, &vs_text, NULL);
-	glCompileShader(vertShader);
+			GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+			GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource(fragShader, 1, &fs_text, NULL);
-	glCompileShader(fragShader);
+			glShaderSource(vertShader, 1, &vs_text, NULL);
+			glCompileShader(vertShader);
 
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
-	glLinkProgram(program);
+			glShaderSource(fragShader, 1, &fs_text, NULL);
+			glCompileShader(fragShader);
 
-	GLint result = GL_FALSE;
-	glGetProgramiv(program, GL_LINK_STATUS, &result);
-	if (result) {
-		int logLength;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-		if (logLength > 1) {
-			std::vector<char> programError(logLength);
-			glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
-			std::cout << &programError[0] << std::endl;
+			GLuint program = glCreateProgram();
+			glAttachShader(program, vertShader);
+			glAttachShader(program, fragShader);
+			glLinkProgram(program);
+
+			GLint result = GL_FALSE;
+			glGetProgramiv(program, GL_LINK_STATUS, &result);
+			if (result) {
+				int logLength;
+				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+				if (logLength > 1) {
+					std::vector<char> programError(logLength);
+					glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
+					std::cout << &programError[0] << std::endl;
+				}
+			}
+
+			glDeleteShader(vertShader);
+			glDeleteShader(fragShader);
+
+			return new Shader(program);
 		}
 	}
-
-	glDeleteShader(vertShader);
-	glDeleteShader(fragShader);
-
-	return new Shader(program);
 }

@@ -16,52 +16,58 @@
 #define ASPECT_OTHER 0x14
 #define ASPECT_ALL 0x15
 
-struct DisplayMode {
-	int width, height, ratioTag;
-	float aspectRatio;
+namespace engine {
+	namespace core {
 
-	DisplayMode();
-	DisplayMode(int width, int height);
-	
-	DisplayMode* operator= (DisplayMode* mode);
-};
+		struct DisplayMode {
+			int width, height, ratioTag;
+			float aspectRatio;
 
-class Window {
+			DisplayMode();
+			DisplayMode(int width, int height);
 
-public:
-	static void init();
-	static void window(int width, int height, const char* title, int windowMode, bool vSync);
-	static void window(DisplayMode* displayMode, const char* title, int windowMode, bool vSync);
-	static void initGL();
-	static void update();
-	static bool isCloseRequested();
-	static void destroy();
-	static void end();
+			DisplayMode* operator= (DisplayMode* mode);
+		};
 
-	static void setTitle(const char* title);
-	static void setCursorMode(int mode);
-	static void setVSync(bool vSync);
-	static void setDisplayMode(DisplayMode* displayMode);
-	static void setWindowMode(int windowMode);
+		class Window {
 
-	static void setUserWindowSetting(DisplayMode* displayMode, int videoMode, bool vSync);
+		public:
+			static void init();
+			static void window(int width, int height, const char* title, int windowMode, bool vSync);
+			static void window(DisplayMode* displayMode, const char* title, int windowMode, bool vSync);
+			static void initGL();
+			static void update();
+			static bool isCloseRequested();
+			static void destroy();
+			static void end();
 
-	static float aspectRatio();
-	static int getWidth();
-	static int getHeight();
+			static void setTitle(const char* title);
+			static void setCursorMode(int mode);
+			static void setVSync(bool vSync);
+			static void setDisplayMode(DisplayMode* displayMode);
+			static void setWindowMode(int windowMode);
 
-	static DisplayMode* getAvailableDisplayModes(int* count, int filter = ASPECT_ALL);
+			static void setUserWindowSetting(DisplayMode* displayMode, int videoMode, bool vSync);
 
-protected:
-	static void makeWindow(GLFWmonitor* monitor_parrent);
+			static float aspectRatio();
+			static int getWidth();
+			static int getHeight();
 
-private:
-	static GLFWwindow* w_window;
-	static DisplayMode* w_displayMode;
-	static const char* w_title;
-	static int w_windowMode;
-	static bool w_vSync;
+			static DisplayMode* getAvailableDisplayModes(int* count, int filter = ASPECT_ALL);
 
-	static void setInputCallbacks();
+		protected:
+			static void makeWindow(GLFWmonitor* monitor_parrent);
 
-};
+		private:
+			static GLFWwindow* w_window;
+			static DisplayMode* w_displayMode;
+			static const char* w_title;
+			static int w_windowMode;
+			static bool w_vSync;
+
+			static void setInputCallbacks();
+
+		};
+
+	}
+}

@@ -3,32 +3,37 @@
 #include "Matrix3f.h"
 #include "Vector2f.h"
 
-class Transform {
+namespace engine {
+	namespace core {
 
-public:
-	Transform(Vector2f *pos = new Vector2f(0, 0), float rot = 0, Vector2f *scale = new Vector2f(1, 1), bool invert_pos = false);
-	Transform(Vector2f *pos, Vector2f *scale);
-	~Transform();
+		class Transform {
 
-	Vector2f * getPos();
-	Vector2f * getScale();
-	float getRotation();
+		public:
+			Transform(Vector2f *pos = new Vector2f(0, 0), float rot = 0, Vector2f *scale = new Vector2f(1, 1), bool invert_pos = false);
+			Transform(Vector2f *pos, Vector2f *scale);
+			~Transform();
 
-	Matrix3f * getModelMatrix();
-	bool hasChanged();
+			Vector2f * getPos();
+			Vector2f * getScale();
+			float getRotation();
 
-	Transform * negated_pos();
+			Matrix3f * getModelMatrix();
+			bool hasChanged();
 
-	void setPos(Vector2f *pos);
-	void setScale(Vector2f *scale);
-	void setRotation(float rotation);
+			Transform * negated_pos();
 
-private:
-	Matrix3f* t_modelMatrix;
-	Vector2f* t_position, *t_scale;
-	float t_rotation;
-	bool t_hasCanged, t_invertPos;
+			void setPos(Vector2f *pos);
+			void setScale(Vector2f *scale);
+			void setRotation(float rotation);
 
-	void computeModelMatrix();
+		private:
+			Matrix3f* t_modelMatrix;
+			Vector2f* t_position, *t_scale;
+			float t_rotation;
+			bool t_hasCanged, t_invertPos;
 
-};
+			void computeModelMatrix();
+
+		};
+	}
+}

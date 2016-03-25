@@ -1,51 +1,56 @@
 #include "Timer.h"
 
-long Timer::lastTime = 0;
-float Timer::time = 0;
-float Timer::delta = 0;
-float Timer::fps = 0;
-float Timer::fpsC = 0;
-long Timer::lastFPS = 0;
-bool Timer::native_log_fps = false;
+namespace engine {
+	namespace core {
 
-void Timer::update() {
-	delta = calcDeltaS() / TIME_RESOLUTION;
-	if (delta < 0) delta = 0;
-	time += delta;
-	updateFPS();
-}
+		long Timer::lastTime = 0;
+		float Timer::time = 0;
+		float Timer::delta = 0;
+		float Timer::fps = 0;
+		float Timer::fpsC = 0;
+		long Timer::lastFPS = 0;
+		bool Timer::native_log_fps = false;
 
-float Timer::getDelta() {
-	return delta;
-}
+		void Timer::update() {
+			delta = calcDeltaS() / TIME_RESOLUTION;
+			if (delta < 0) delta = 0;
+			time += delta;
+			updateFPS();
+		}
 
-float Timer::getFPS() {
-	return fps;
-}
+		float Timer::getDelta() {
+			return delta;
+		}
 
-void Timer::setLogFPS(bool log) {
-	native_log_fps = log;
-}
+		float Timer::getFPS() {
+			return fps;
+		}
 
-long Timer::getTimeS() {
-	return System::time();
-}
+		void Timer::setLogFPS(bool log) {
+			native_log_fps = log;
+		}
 
-float Timer::calcDeltaS() {
-	long timeS = getTimeS();
-	float delta = (float) (timeS - lastTime);
-	lastTime = timeS;
-	return delta;
-}
+		long Timer::getTimeS() {
+			return System::time();
+		}
 
-int reset_count;
-void Timer::updateFPS() {
-	if ((int) time > lastFPS) {
-		fps = fpsC;
-		if (native_log_fps)
-			std::cout << fps << std::endl;
-		fpsC = 0;
-		lastFPS++;
+		float Timer::calcDeltaS() {
+			long timeS = getTimeS();
+			float delta = (float) (timeS - lastTime);
+			lastTime = timeS;
+			return delta;
+		}
+
+		int reset_count;
+		void Timer::updateFPS() {
+			if ((int) time > lastFPS) {
+				fps = fpsC;
+				if (native_log_fps)
+					std::cout << fps << std::endl;
+				fpsC = 0;
+				lastFPS++;
+			}
+			fpsC++;
+		}
 	}
-	fpsC++;
 }
