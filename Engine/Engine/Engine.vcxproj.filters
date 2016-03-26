@@ -158,6 +158,9 @@
     <ClInclude Include="src\core\Camera.h">
       <Filter>Header Files\core\render\camera</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Logger.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\test.frag">

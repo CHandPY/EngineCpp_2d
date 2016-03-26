@@ -180,6 +180,7 @@
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\IO.h" />
     <ClInclude Include="src\core\lodepng.h" />
+    <ClInclude Include="src\core\Logger.h" />
     <ClInclude Include="src\core\Matrix3f.h" />
     <ClInclude Include="src\core\Mesh.h" />
     <ClInclude Include="src\core\Shader.h" />

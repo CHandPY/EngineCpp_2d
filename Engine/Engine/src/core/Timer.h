@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "System.h"
+#include "Logger.h"
 
 namespace engine {
 	namespace core {

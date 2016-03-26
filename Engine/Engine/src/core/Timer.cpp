@@ -46,7 +46,7 @@ namespace engine {
 			if ((int) time > lastFPS) {
 				fps = fpsC;
 				if (native_log_fps)
-					std::cout << fps << std::endl;
+					LOG("FPS: " << fps);
 				fpsC = 0;
 				lastFPS++;
 			}
