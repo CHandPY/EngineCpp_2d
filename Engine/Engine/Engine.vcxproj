@@ -176,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Camera.h" />
+    <ClInclude Include="src\core\GL_Window.h" />
     <ClInclude Include="src\core\HashMap.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\IO.h" />

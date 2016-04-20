@@ -58,6 +58,9 @@
     <Filter Include="Source Files\core\render\camera">
       <UniqueIdentifier>{76ece0f1-6b56-4a37-9274-d758190f965d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\OpenGL">
+      <UniqueIdentifier>{fb27fa6b-6401-475d-9054-0e4552268793}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="src\core\Logger.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GL_Window.h">
+      <Filter>Header Files\core\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
