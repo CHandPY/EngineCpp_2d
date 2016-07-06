@@ -10,7 +10,7 @@
 
 #include "core/System.h"
 #include "core/Input.h"
-#include "core/Window.h"
+#include "core/GL_Window.h"
 #include "core/Timer.h"
 #include "core/HashMap.h"
 #include "core/Strings.h"
@@ -39,14 +39,15 @@ int main() {
 	using namespace engine;
 	using namespace engine::core;
 	using namespace engine::graphics;
+	using namespace engine::core::GL;
 
 	int ln = 7, index = 0;
 	int msaa[] = { 0, 1, 2, 4, 8, 16, 32, 64 };
 
-	Window::init();
+	glfwInit();
 	glfwWindowHint(GLFW_SAMPLES, msaa[index]);
-	Window::window(1920, 1080, "Hello World", WINDOWED, true);
-	Window::initGL();
+	DisplayMode& mode = DisplayMode(1920, 1080);
+	GL_Window * window = new GL_Window(mode, "hello world");
 	Timer::setLogFPS(true);
 
 	glewInit();

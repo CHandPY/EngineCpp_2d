@@ -58,8 +58,11 @@
     <Filter Include="Source Files\core\render\camera">
       <UniqueIdentifier>{76ece0f1-6b56-4a37-9274-d758190f965d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\OpenGL">
+    <Filter Include="Header Files\OpenGL">
       <UniqueIdentifier>{fb27fa6b-6401-475d-9054-0e4552268793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OpenGL">
+      <UniqueIdentifier>{fbfb1957-c380-48b8-85a2-f3d0435d3560}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="src\core\Camera.cpp">
       <Filter>Source Files\core\render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GL_Window.cpp">
+      <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +171,7 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\GL_Window.h">
-      <Filter>Header Files\core\OpenGL</Filter>
+      <Filter>Header Files\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

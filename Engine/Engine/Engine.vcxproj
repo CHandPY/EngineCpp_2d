@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Camera.cpp" />
+    <ClCompile Include="src\core\GL_Window.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\IO.cpp" />
     <ClCompile Include="src\core\lodepng.cpp" />

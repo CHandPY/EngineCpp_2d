@@ -13,7 +13,9 @@ namespace engine {
 
 #define output_to_console(out) std::cout << out << std::endl
 
-#elif defined(__APPLE__) && defined__MACH__)
+#elif defined(__APPLE__) && defined(__MACH__)
+
+// SHOULD BE FIXED SOME DAY FOR OSX DEBUG AND COMPATIBILITY
 
 #define set_console_color(color) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color)
 
