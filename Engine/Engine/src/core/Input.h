@@ -1,8 +1,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-
-#include "Window.h"
+#include <iostream>
 
 /* unknown input event */
 #define UNKNOWN_EVENT          -1
@@ -160,31 +159,32 @@ namespace engine {
 
 		class Input {
 
+			// friend class Window;
+			// friend class GL::GL_Window;
+
 		public:
-			static int event(int id);
-			static int eventStarted(int id);
-			static int eventStopped(int id);
-			static int getMX();
-			static int getMY();
-			static int getMDX();
-			static int getMDY();
-			static void update();
-			static void mouseGrab(bool grab);
+			Input();
+			~Input();
 
-			static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-			static void mouse_callback(GLFWwindow* window, int button, int action, int mods);
-			static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-			static void m_pos_callback(GLFWwindow* window, double xpos, double ypos);
+			int event(int id);
+			int eventStarted(int id);
+			int eventStopped(int id);
+			int getMX();
+			int getMY();
+			int getMDX();
+			int getMDY();
+			void update();
+			void mouseGrab(bool grab);
 
-			static bool mouseGrabed();
+			bool mouseGrabed();
 
-		private:
-			static int events[LAST_EVENT_BOUND];
-			static int events_started[LAST_EVENT_BOUND];
-			static int events_stopped[LAST_EVENT_BOUND];
-			static int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its worth it.
-			static int MX, MY, DX, DY;
-			static bool m_grab;
+		// private: // can't be private, class friendship dosen't work cross namespaces
+			int events[LAST_EVENT_BOUND];
+			int events_started[LAST_EVENT_BOUND];
+			int events_stopped[LAST_EVENT_BOUND];
+			int events_repeat[LAST_EVENT_BOUND]; // support for key_repeat? don't know if its needed.
+			int MX, MY, DX, DY;
+			bool m_grab;
 
 		};
 	}

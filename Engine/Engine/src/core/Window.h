@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Input.h"
+
 #define WINDOWED              0x00
 #define FULLSCREEN            0x01
 #define FULLSCREEN_WINDOWED   0x02
@@ -41,12 +43,15 @@ namespace engine {
 			virtual void destroy() = 0;
 			
 			/* Designed to be overiden to add functionality */
-			void setDisplayMode(const DisplayMode const& newMode);
+			void setDisplayMode(const DisplayMode & newMode);
 			DisplayMode& getDisplayMode() const;
 
 			/* Designed to be overiden to add functionality */
 			void setTitle(const char* title);
 			const char * getTitle() const;
+
+			Input * getInput() const;
+			void attachInput(Input * i);
 
 			virtual DisplayMode* getAvalableDisplayModes(int * count, int filter = ASPECT_ALL, int winMode = WINDOWED, bool vSync = false) const = 0;
 			virtual int* getSupportedWindowModes(int * count) const = 0;
@@ -54,6 +59,8 @@ namespace engine {
 		protected:
 			DisplayMode * m_displayMode;
 			const char * m_title;
+
+			Input * m_input;
 
 		};
 

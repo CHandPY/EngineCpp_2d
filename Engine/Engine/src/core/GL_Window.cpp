@@ -3,7 +3,12 @@
 namespace engine {
 	namespace core {
 		namespace GL {
-			
+
+			Input * GL_Window::s_input = NULL;
+
+			GL_Window::GL_Window(const DisplayMode & displayMode, const char * title) : Window(displayMode, title) {
+			}
+
 			void GL_Window::create() {
 
 				GLFWmonitor *mon = NULL;
@@ -76,6 +81,15 @@ namespace engine {
 				return new int[3] { WINDOWED, FULLSCREEN, FULLSCREEN_WINDOWED };
 			}
 
+			void GL_Window::attachInput(Input * i) {
+				Window::attachInput(i);
+				s_input = m_input;
+				glfwSetScrollCallback(m_window, scroll_callback);
+				glfwSetKeyCallback(m_window, key_callback);
+				glfwSetMouseButtonCallback(m_window, mouse_callback);
+				glfwSetCursorPosCallback(m_window, m_pos_callback);
+			}
+
 			void GL_Window::make_window_internal(GLFWmonitor* monitor_parrent) {
 
 				GLFWmonitor* monitor = (monitor_parrent) ? monitor_parrent : glfwGetPrimaryMonitor();
@@ -101,6 +115,65 @@ namespace engine {
 					System::exit(1);
 				}
 
+				glfwMakeContextCurrent(m_window);
+
+			}
+
+			void GL_Window::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
+				LOG((char) key);
+				if (key == UNKNOWN_EVENT) return;
+
+				if (action == PRESS) {
+					s_input->events[key] = 1;
+					s_input->events_started[key] = 1;
+				}
+
+				if (action == RELEASE) {
+					s_input->events[key] = 0;
+					s_input->events_stopped[key] = 1;
+				}
+
+				if (action == REPEAT) {
+				}
+			}
+
+			void GL_Window::mouse_callback(GLFWwindow * window, int button, int action, int mods) {
+				if (button == UNKNOWN_EVENT) return;
+
+				button += MOUSE_1;
+
+				if (action == PRESS) {
+					s_input->events[button] = 1;
+					s_input->events_started[button] = 1;
+				}
+
+				if (action == RELEASE) {
+					s_input->events[button] = 0;
+					s_input->events_stopped[button] = 1;
+				}
+
+				if (action == REPEAT) {
+				}
+			}
+
+			void GL_Window::scroll_callback(GLFWwindow * window, double xoffset, double yoffset) {
+				if (yoffset > 0) {
+					s_input->events_started[MOUSE_WHEEL_UP] = (int) yoffset;
+					s_input->events[MOUSE_WHEEL_UP] = (int) yoffset;
+				} else {
+					s_input->events_started[MOUSE_WHEEL_DOWN] = (int) yoffset;
+					s_input->events[MOUSE_WHEEL_DOWN] = (int) yoffset;
+				}
+
+			}
+
+			void GL_Window::m_pos_callback(GLFWwindow * window, double xpos, double ypos) {
+
+				s_input->DX = (int) xpos - s_input->MX;
+				s_input->DY = (int) ypos - s_input->MY;
+
+				s_input->MX = (int) xpos;
+				s_input->MY = (int) ypos;
 			}
 
 		}

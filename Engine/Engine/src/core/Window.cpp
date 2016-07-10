@@ -1,7 +1,5 @@
 #include "Window.h"
 
-#include <iostream>
-
 namespace engine {
 	namespace core {
 
@@ -40,6 +38,7 @@ namespace engine {
 		Window::Window(const DisplayMode & displayMode, const char * title) 
 			: m_title(title)
 		{ 
+			m_displayMode = new DisplayMode();
 			*m_displayMode = displayMode;
 		}
 
@@ -59,6 +58,14 @@ namespace engine {
 
 		const char * Window::getTitle() const {
 			return m_title;
+		}
+
+		Input * Window::getInput() const {
+			return m_input;
+		}
+
+		void Window::attachInput(Input * i) {
+			this->m_input = i;
 		}
 
 	}
